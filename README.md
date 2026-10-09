@@ -51,12 +51,15 @@ kontrollieren.
 
 ## Veröffentlichen
 
+Das Repository ist mit Vercel verbunden. **Jeder Push auf `main` deployt automatisch
+nach https://noelgruber.de:**
+
 ```bash
-npx vercel --prod
+git add -A && git commit -m "Was geändert wurde" && git push
 ```
 
-Beim ersten Mal fragt Vercel nach dem Projektnamen. Danach genügt derselbe Befehl
-für jede Aktualisierung.
+Pushes auf andere Branches erzeugen eine Vorschau-Adresse, ohne die Live-Seite anzufassen.
+Notfalls geht weiterhin ein Deployment von Hand mit `npx vercel --prod`.
 
 ## Später: Domain
 
