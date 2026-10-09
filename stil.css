@@ -247,3 +247,10 @@ footer .thema{margin-left:auto}
   .hero::after{display:none}
 }
 .legal code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; background:var(--surf); border:1px solid var(--line); border-radius:4px; padding:1px 5px}
+
+/* ── Wortmarke in der Navigation ───── */
+.brand{display:inline-flex; align-items:center; gap:9px}
+.brand .logo{flex:none; border-radius:7px}
+.logo__feld{fill:var(--ink)}
+.logo__text{fill:var(--bg)}
+.logo__punkt{fill:var(--glow)}
