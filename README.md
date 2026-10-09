@@ -1,5 +1,7 @@
 # Noel Gruber — Freelance-Website
 
+Live unter **https://noelgruber.de** · Repository: https://github.com/NoelGru/noelgruber-website
+
 Statische Seite plus eine Funktion für das Anfrageformular. Kein Framework,
 kein Build-Schritt: Dateien ändern, hochladen, fertig.
 
