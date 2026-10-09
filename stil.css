@@ -240,6 +240,11 @@ footer .thema{margin-left:auto}
 @media (max-width:620px){
   .cv li{grid-template-columns:1fr; gap:3px}
   .cv .yr{padding-top:0}
+  /* Auf schmalen Geraeten nur Wortmarke und Umschalter.
+     Die Abschnitte erreicht man durch Scrollen, die Knoepfe stehen im Hero. */
+  .nav{flex-wrap:nowrap}
+  .navlinks{min-width:0; gap:0}
+  .navlinks a{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important; animation:none !important}
