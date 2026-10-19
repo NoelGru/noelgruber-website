@@ -132,9 +132,22 @@ section{padding-block:clamp(66px,9vw,124px)}
 .hd h2{font-size:clamp(28px,5vw,58px); margin-top:16px; max-width:19ch; text-wrap:balance}
 .hd p{margin:20px 0 0; color:var(--mut); max-width:56ch; font-size:17px}
 
-.svc{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line)}
-.svc > div{background:var(--bg); padding:30px 26px; transition:background .3s}
-.svc > div:hover{background:var(--surf)}
+/* Jede Leistung als eigene Karte */
+.svc{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(13px,1.5vw,18px)}
+.svc > div{
+  background:var(--surf); border:1px solid var(--line); border-radius:16px;
+  padding:clamp(22px,2.4vw,28px); transition:border-color .25s, transform .25s;
+}
+.svc > div:hover{border-color:var(--line2); transform:translateY(-3px)}
+
+/* Uebergang von "Ueber mich" zu den Leistungen: Linie, die zu den Seiten ausblendet */
+#ueber{padding-bottom:clamp(74px,10vw,140px)}
+#leistungen{position:relative; padding-top:clamp(74px,10vw,140px)}
+#leistungen::before{
+  content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:min(1180px, 100% - 40px); height:1px;
+  background:linear-gradient(to right, transparent, var(--line2) 18%, var(--line2) 82%, transparent);
+}
 .svc h3{font-size:20px; margin-bottom:11px}
 .svc p{margin:0; color:var(--mut); font-size:15.3px}
 
@@ -277,6 +290,7 @@ footer .thema{margin-left:auto}
   .werdegang{grid-template-columns:repeat(3,minmax(0,1fr)); row-gap:34px}
 }
 @media (max-width:900px){
+  .svc{grid-template-columns:repeat(2,minmax(0,1fr))}
   .steps{grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:38px}
   .steps li:nth-child(even)::before{right:0}
 }
@@ -307,6 +321,7 @@ footer .thema{margin-left:auto}
   .werdegang .yr{position:static; display:block; margin-bottom:7px}
 }
 @media (max-width:620px){
+  .svc{grid-template-columns:1fr}
   /* Auf schmalen Geraeten nur Wortmarke und Umschalter.
      Die Abschnitte erreicht man durch Scrollen, die Knoepfe stehen im Hero. */
   .nav{flex-wrap:nowrap}
