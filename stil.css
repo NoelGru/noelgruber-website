@@ -294,22 +294,22 @@ footer .thema{margin-left:auto}
 /* Der Ausgangszustand wird erst von seite.js gesetzt. Ohne JavaScript
    ist alles sofort sichtbar, nichts bleibt unsichtbar liegen. */
 .animiert li::before{transform:scaleX(0); transform-origin:left center;
-  transition:transform .75s cubic-bezier(.2,.75,.2,1)}
+  transition:transform 1.15s cubic-bezier(.22,.7,.2,1)}
 .animiert.sichtbar li::before{transform:scaleX(1)}
 .animiert li::after,.animiert .sn{opacity:0; transform:scale(.5);
-  transition:opacity .4s ease, transform .5s cubic-bezier(.2,.9,.3,1.3)}
+  transition:opacity .55s ease, transform .7s cubic-bezier(.2,.9,.3,1.3)}
 .animiert.sichtbar li::after,.animiert.sichtbar .sn{opacity:1; transform:scale(1)}
 .animiert .sn{transform-origin:center}
 .animiert li:nth-child(1)::before,.animiert li:nth-child(1)::after,.animiert li:nth-child(1) .sn{transition-delay:0s}
-.animiert li:nth-child(2)::before,.animiert li:nth-child(2)::after,.animiert li:nth-child(2) .sn{transition-delay:.11s}
-.animiert li:nth-child(3)::before,.animiert li:nth-child(3)::after,.animiert li:nth-child(3) .sn{transition-delay:.22s}
-.animiert li:nth-child(4)::before,.animiert li:nth-child(4)::after,.animiert li:nth-child(4) .sn{transition-delay:.33s}
-.animiert li:nth-child(5)::before,.animiert li:nth-child(5)::after,.animiert li:nth-child(5) .sn{transition-delay:.44s}
+.animiert li:nth-child(2)::before,.animiert li:nth-child(2)::after,.animiert li:nth-child(2) .sn{transition-delay:.26s}
+.animiert li:nth-child(3)::before,.animiert li:nth-child(3)::after,.animiert li:nth-child(3) .sn{transition-delay:.52s}
+.animiert li:nth-child(4)::before,.animiert li:nth-child(4)::after,.animiert li:nth-child(4) .sn{transition-delay:.78s}
+.animiert li:nth-child(5)::before,.animiert li:nth-child(5)::after,.animiert li:nth-child(5) .sn{transition-delay:1.04s}
 /* Die Punkte sitzen mittig auf der Schiene, deshalb eigener Ursprung */
 .animiert .werdegang li::after,.animiert li::after{transform-origin:center}
 
-.wort{display:inline-block; opacity:0; transform:translateY(.36em);
-  animation:aufbau .62s cubic-bezier(.2,.75,.2,1) forwards; animation-delay:var(--d,0s)}
+.wort{display:inline-block; opacity:0; transform:translateY(.4em);
+  animation:aufbau .95s cubic-bezier(.2,.75,.2,1) forwards; animation-delay:var(--d,0s)}
 @keyframes aufbau{to{opacity:1; transform:none}}
 
 /* ── Schmale Bildschirme ────────────── */

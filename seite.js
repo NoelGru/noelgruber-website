@@ -124,7 +124,7 @@
       eintraege.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('sichtbar'); beobachter.unobserve(e.target); }
       });
-    }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
     Array.prototype.forEach.call(listen, function (l) { beobachter.observe(l); });
   }
 
@@ -153,7 +153,7 @@
       if (w === null) { h1.appendChild(document.createTextNode(' ')); return; }
       var span = document.createElement('span');
       span.className = 'wort';
-      span.style.setProperty('--d', (nr * 0.085).toFixed(3) + 's');
+      span.style.setProperty('--d', (0.15 + nr * 0.19).toFixed(3) + 's');
       w.forEach(function (t) {
         span.appendChild(typeof t === 'string' ? document.createTextNode(t) : t);
       });
