@@ -32,6 +32,8 @@
   --line:#1c1f23; --line2:#2b2f34; --surf:#101316;
   --glow:#b9c8ff; --btn-ink:#070809; --feld:#0b0d0f; --platz:#565d64;
   --marq:#cfd4da; --marq-trenn:#3f4651; --pj-hover:#3a4047; --err:#ff9d8a;
+  /* Rundungen: klein fuer Elemente in einer Karte, mittel fuer Karten, gross fuer Kaesten */
+  --r-s:10px; --r-m:16px; --r-l:22px;
   --punkt:185,200,255; --spot:rgba(185,200,255,.10);
   --hinweis-bg:#17140e; --hinweis-line:#3a3326; --hinweis-ink:#e8d9b4;
 }
@@ -135,7 +137,7 @@ section{padding-block:clamp(66px,9vw,124px)}
 /* Jede Leistung als eigene Karte */
 .svc{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(13px,1.5vw,18px)}
 .svc > div{
-  background:var(--surf); border:1px solid var(--line); border-radius:16px;
+  background:var(--surf); border:1px solid var(--line); border-radius:var(--r-m);
   padding:clamp(22px,2.4vw,28px); transition:border-color .25s, transform .25s;
 }
 .svc > div:hover{border-color:var(--line2); transform:translateY(-3px)}
@@ -159,12 +161,12 @@ section{padding-block:clamp(66px,9vw,124px)}
 .pj{
   display:grid; grid-template-columns:minmax(0,.66fr) minmax(0,1fr); gap:clamp(16px,2.4vw,30px);
   align-items:center; padding:clamp(14px,1.7vw,20px);
-  border:1px solid var(--line); border-radius:12px; background:var(--surf);
+  border:1px solid var(--line); border-radius:var(--r-m); background:var(--surf);
   text-decoration:none; color:inherit;
   transition:border-color .3s, transform .3s cubic-bezier(.2,.8,.2,1);
 }
 a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
-.pj__bild{border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--bg)}
+.pj__bild{border:1px solid var(--line); border-radius:var(--r-s); overflow:hidden; background:var(--bg)}
 .pj__bild img{width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; object-position:top}
 .pj__kopf{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:10px}
 .pj h3{font-size:clamp(20px,2.4vw,25px); letter-spacing:-.04em}
@@ -177,7 +179,7 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 
 /* ── Über mich ──────────────────────── */
 .about{display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr); gap:clamp(30px,5vw,64px); align-items:center}
-.about__img{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--surf)}
+.about__img{border:1px solid var(--line); border-radius:var(--r-m); overflow:hidden; background:var(--surf)}
 .about__img img{width:100%; height:auto}
 .about h2{font-size:clamp(26px,3.6vw,42px); margin-top:16px; max-width:18ch; text-wrap:balance}
 .lead{margin:22px 0 0; color:var(--mut); font-size:17px; line-height:1.65; max-width:58ch}
@@ -236,7 +238,7 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 
 /* ── Kontakt ────────────────────────── */
 .kkarte{
-  background:var(--surf); border:1px solid var(--line); border-radius:24px;
+  background:var(--surf); border:1px solid var(--line); border-radius:var(--r-l);
   padding:clamp(24px,3.6vw,52px);
 }
 .kgrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.92fr); gap:clamp(30px,4.5vw,64px); align-items:center}
@@ -253,7 +255,7 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 .f label{display:block; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--mut); margin-bottom:8px}
 .f input,.f select,.f textarea{
   width:100%; font:inherit; font-size:15.5px; padding:13px 15px; color:var(--ink);
-  background:var(--feld); border:1px solid var(--line2); border-radius:9px;
+  background:var(--feld); border:1px solid var(--line2); border-radius:var(--r-s);
 }
 .f input:focus,.f select:focus,.f textarea:focus{border-color:var(--glow); outline:none}
 .f textarea{min-height:120px; resize:vertical}
@@ -281,7 +283,7 @@ footer .thema{margin-left:auto}
 .legal .kopf{display:flex; align-items:center; gap:16px; margin-bottom:34px}
 .legal .back{display:inline-block; font-size:14px; color:var(--mut); text-decoration:none}
 .legal .hinweis{
-  border:1px solid var(--hinweis-line); background:var(--hinweis-bg); border-radius:10px;
+  border:1px solid var(--hinweis-line); background:var(--hinweis-bg); border-radius:var(--r-s);
   padding:18px 20px; color:var(--hinweis-ink); font-size:14.5px; max-width:72ch;
 }
 
@@ -333,7 +335,7 @@ footer .thema{margin-left:auto}
   html{scroll-behavior:auto}
   .hero::after{display:none}
 }
-.legal code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; background:var(--surf); border:1px solid var(--line); border-radius:4px; padding:1px 5px}
+.legal code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; background:var(--surf); border:1px solid var(--line); border-radius:6px; padding:1px 5px}
 
 /* ── Wortmarke in der Navigation ───── */
 .brand{display:inline-flex; align-items:center; gap:9px}
