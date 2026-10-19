@@ -162,6 +162,46 @@
     });
   }
 
+
+  /* ── Lebende Projektvorschau ───────────────────────────────
+     Laedt die echte Seite in die Kachel, sobald sie in Sichtweite kommt. */
+  var lebend = document.querySelectorAll('a.pj[data-live]');
+  if (lebend.length && 'IntersectionObserver' in window) {
+    var fensterBreite = 1280, fensterHoehe = 1800;
+
+    var starten = function (kachel) {
+      var feld = kachel.querySelector('.pj__bild');
+      if (!feld) return;
+      var faktor = feld.clientWidth / fensterBreite;
+      var rahmen = document.createElement('div');
+      rahmen.className = 'pj__rahmen';
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('loading', 'lazy');
+      iframe.setAttribute('tabindex', '-1');
+      iframe.setAttribute('aria-hidden', 'true');
+      iframe.setAttribute('scrolling', 'no');
+      iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+      iframe.width = fensterBreite;
+      iframe.height = fensterHoehe;
+      iframe.src = kachel.getAttribute('data-live');
+      iframe.addEventListener('load', function () { kachel.classList.add('pj--lebt'); });
+      rahmen.appendChild(iframe);
+      feld.appendChild(rahmen);
+
+      kachel.style.setProperty('--sk', faktor.toFixed(4));
+      var sichtbar = feld.clientHeight / faktor;
+      var weg = Math.min(60, Math.max(20, ((fensterHoehe - sichtbar) / fensterHoehe) * 100));
+      kachel.style.setProperty('--weg', '-' + weg.toFixed(0) + '%');
+    };
+
+    var lader = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) {
+        if (e.isIntersecting) { starten(e.target); lader.unobserve(e.target); }
+      });
+    }, { rootMargin: '250px' });
+    Array.prototype.forEach.call(lebend, function (k) { lader.observe(k); });
+  }
+
   /* ── Anfrageformular ─────────────────────── */
   var form = document.getElementById('form');
   if (form) {

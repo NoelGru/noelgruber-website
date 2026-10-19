@@ -165,8 +165,22 @@ section{padding-block:clamp(66px,9vw,124px)}
   transition:border-color .3s, transform .3s cubic-bezier(.2,.8,.2,1);
 }
 a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
-.pj__bild{border:1px solid var(--line); border-radius:var(--r-s); overflow:hidden; background:var(--bg)}
-.pj__bild img{width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; object-position:top}
+.pj__bild{position:relative; border:1px solid var(--line); border-radius:var(--r-s); overflow:hidden; background:var(--bg)}
+.pj__bild img{width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; object-position:top; transition:opacity .6s ease}
+
+/* ── Lebende Projektvorschau ─────────────────────────────────────
+   Das Standbild bleibt stehen, bis die echte Seite geladen ist.
+   Geladen wird erst, wenn die Kachel in Sichtweite kommt. */
+.pj__rahmen{position:absolute; inset:0; opacity:0; transition:opacity .6s ease; pointer-events:none}
+.pj__rahmen iframe{border:0; position:absolute; left:0; top:0; transform-origin:0 0;
+  pointer-events:none; transform:scale(var(--sk,1)); transition:transform 7s cubic-bezier(.33,0,.4,1)}
+.pj--lebt .pj__rahmen{opacity:1}
+.pj--lebt .pj__bild img{opacity:0}
+a.pj:hover .pj__rahmen iframe{transform:scale(var(--sk,1)) translateY(var(--weg,-40%))}
+@media (prefers-reduced-motion: reduce){
+  a.pj:hover .pj__rahmen iframe{transform:scale(var(--sk,1))}
+}
+
 .pj__kopf{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:10px}
 .pj h3{font-size:clamp(20px,2.4vw,25px); letter-spacing:-.04em}
 .pj p{margin:0; color:var(--mut); font-size:14.8px; line-height:1.58; max-width:52ch}
