@@ -134,22 +134,10 @@ section{padding-block:clamp(66px,9vw,124px)}
 .hd h2{font-size:clamp(28px,5vw,58px); margin-top:16px; max-width:19ch; text-wrap:balance}
 .hd p{margin:20px 0 0; color:var(--mut); max-width:56ch; font-size:17px}
 
-/* Jede Leistung als eigene Karte */
-.svc{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(13px,1.5vw,18px)}
-.svc > div{
-  background:var(--surf); border:1px solid var(--line); border-radius:var(--r-m);
-  padding:clamp(22px,2.4vw,28px); transition:border-color .25s, transform .25s;
-}
-.svc > div:hover{border-color:var(--line2); transform:translateY(-3px)}
+/* Leistungen stehen ohne eigene Rahmen im Kasten */
+.svc{display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(28px,3.2vw,42px) clamp(24px,3vw,40px)}
 
-/* Uebergang von "Ueber mich" zu den Leistungen: Linie, die zu den Seiten ausblendet */
-#ueber{padding-bottom:clamp(74px,10vw,140px)}
-#leistungen{position:relative; padding-top:clamp(74px,10vw,140px)}
-#leistungen::before{
-  content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:min(1180px, 100% - 40px); height:1px;
-  background:linear-gradient(to right, transparent, var(--line2) 18%, var(--line2) 82%, transparent);
-}
 .svc h3{font-size:20px; margin-bottom:11px}
 .svc p{margin:0; color:var(--mut); font-size:15.3px}
 
@@ -210,7 +198,6 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 .werdegang li>span:last-child{display:block; color:var(--mut); font-size:14.4px; line-height:1.5}
 
 /* ── Ablauf ─────────────────────────── */
-.band{background:var(--surf); border-block:1px solid var(--line)}
 /* Ablauf als Abfolge: durchgehende Schiene mit nummerierten Kreisen darauf */
 .steps{
   --gap:clamp(20px,2.4vw,30px);
@@ -225,7 +212,7 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 .steps li:last-child::before{right:0}
 .sn{
   position:absolute; top:3px; left:0; width:27px; height:27px; border-radius:50%;
-  background:var(--surf); border:1px solid var(--line2); color:var(--mut);
+  background:var(--bg); border:1px solid var(--line2); color:var(--mut);
   display:grid; place-items:center; font-size:12.5px; letter-spacing:0; margin:0;
 }
 .steps li:last-child .sn{border-color:var(--glow); color:var(--glow)}
@@ -237,7 +224,8 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 .how p:last-child{margin-bottom:0}
 
 /* ── Kontakt ────────────────────────── */
-.kkarte{
+/* Ein Kasten fuer einen ganzen Abschnitt. Die Seite bleibt schwarz, die Kaesten setzen sich ab. */
+.kasten{
   background:var(--surf); border:1px solid var(--line); border-radius:var(--r-l);
   padding:clamp(24px,3.6vw,52px);
 }
