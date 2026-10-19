@@ -115,6 +115,53 @@
     });
   }
 
+
+  /* ── Linien, die sich beim Hineinscrollen zeichnen ─────────── */
+  var listen = document.querySelectorAll('.werdegang, .steps');
+  if (listen.length && 'IntersectionObserver' in window) {
+    Array.prototype.forEach.call(listen, function (l) { l.classList.add('animiert'); });
+    var beobachter = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('sichtbar'); beobachter.unobserve(e.target); }
+      });
+    }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(listen, function (l) { beobachter.observe(l); });
+  }
+
+  /* ── Hero-Überschrift baut sich Wort für Wort auf ──────────── */
+  var h1 = document.querySelector('.hero__in h1');
+  if (h1 && !reduce) {
+    var teile = [];
+    Array.prototype.forEach.call(h1.childNodes, function (k) {
+      if (k.nodeType === 3) {
+        k.nodeValue.split(/(\s+)/).forEach(function (t) { if (t !== '') teile.push(t); });
+      } else {
+        teile.push(k.cloneNode(true));
+      }
+    });
+    // Satzzeichen gehoeren zum Wort davor, nicht in eine eigene Zeile
+    var woerter = [];
+    teile.forEach(function (t) {
+      var nurZeichen = typeof t === 'string' && /^[.,;:!?]+$/.test(t);
+      if (nurZeichen && woerter.length) { woerter[woerter.length - 1].push(t); }
+      else if (typeof t === 'string' && /^\s+$/.test(t)) { woerter.push(null); }
+      else { woerter.push([t]); }
+    });
+    h1.textContent = '';
+    var nr = 0;
+    woerter.forEach(function (w) {
+      if (w === null) { h1.appendChild(document.createTextNode(' ')); return; }
+      var span = document.createElement('span');
+      span.className = 'wort';
+      span.style.setProperty('--d', (nr * 0.085).toFixed(3) + 's');
+      w.forEach(function (t) {
+        span.appendChild(typeof t === 'string' ? document.createTextNode(t) : t);
+      });
+      h1.appendChild(span);
+      nr++;
+    });
+  }
+
   /* ── Anfrageformular ─────────────────────── */
   var form = document.getElementById('form');
   if (form) {
