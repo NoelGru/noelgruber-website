@@ -160,16 +160,36 @@ a.pj:hover{border-color:var(--pj-hover); transform:translateY(-3px)}
 .pj:nth-child(even) .pj__bild{order:2}
 
 /* ── Über mich ──────────────────────── */
-.about{display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr); gap:clamp(30px,5vw,64px); align-items:start}
+.about{display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr); gap:clamp(30px,5vw,64px); align-items:center}
 .about__img{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--surf)}
 .about__img img{width:100%; height:auto}
 .about h2{font-size:clamp(26px,3.6vw,42px); margin-top:16px; max-width:18ch; text-wrap:balance}
 .lead{margin:22px 0 0; color:var(--mut); font-size:17px; line-height:1.65; max-width:58ch}
 .lead b{color:var(--ink); font-weight:600}
-.cv{list-style:none; margin:40px 0 0; padding:0}
-.cv li{display:grid; grid-template-columns:104px 1fr; gap:18px; padding:14px 0; border-top:1px solid var(--line); font-size:15.4px; color:var(--mut)}
-.cv li b{color:var(--ink); font-weight:600}
-.cv .yr{font-size:12.5px; color:var(--dim); padding-top:4px; font-variant-numeric:tabular-nums}
+/* Werdegang als Zeitstrahl: Schiene aus li::before, Punkt aus li::after */
+.werdegang{
+  --gap:clamp(14px,1.8vw,26px);
+  list-style:none; margin:clamp(44px,5vw,70px) 0 0; padding:0;
+  display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0 var(--gap);
+}
+.werdegang li{position:relative; padding-top:52px}
+.werdegang li::before{
+  content:""; position:absolute; left:0; right:calc(var(--gap) * -1); top:40px;
+  height:1px; background:var(--line2);
+}
+.werdegang li:last-child::before{right:0}
+.werdegang li::after{
+  content:""; position:absolute; left:0; top:36px; width:9px; height:9px;
+  border-radius:50%; background:var(--dim); box-shadow:0 0 0 4px var(--bg);
+}
+.werdegang li.jetzt::after{background:var(--glow); box-shadow:0 0 0 4px var(--bg), 0 0 0 7px rgba(var(--punkt),.22)}
+.werdegang li.jetzt .yr{color:var(--glow)}
+.werdegang .yr{
+  position:absolute; top:0; left:0; font-size:12px; letter-spacing:.12em;
+  color:var(--dim); font-variant-numeric:tabular-nums;
+}
+.werdegang b{display:block; font-size:15.5px; font-weight:600; letter-spacing:-.01em; margin-bottom:5px}
+.werdegang li>span:last-child{display:block; color:var(--mut); font-size:14.4px; line-height:1.5}
 
 /* ── Ablauf ─────────────────────────── */
 .band{background:var(--surf); border-block:1px solid var(--line)}
@@ -235,6 +255,9 @@ footer .thema{margin-left:auto}
 }
 
 /* ── Schmale Bildschirme ────────────── */
+@media (max-width:1120px){
+  .werdegang{grid-template-columns:repeat(3,minmax(0,1fr)); row-gap:34px}
+}
 @media (max-width:960px){
   .about,.how,.kgrid{grid-template-columns:1fr}
   .kgrid{align-items:start}
@@ -244,9 +267,16 @@ footer .thema{margin-left:auto}
   .pj,.pj:nth-child(even){grid-template-columns:1fr; gap:20px}
   .pj:nth-child(even) .pj__bild{order:0}
 }
+@media (max-width:720px){
+  /* Auf schmalen Geraeten kippt der Zeitstrahl in die Senkrechte */
+  .werdegang{grid-template-columns:1fr; row-gap:0}
+  .werdegang li{padding:0 0 26px 26px}
+  .werdegang li::before{left:4px; right:auto; top:7px; bottom:0; width:1px; height:auto}
+  .werdegang li:last-child::before{bottom:auto; height:14px}
+  .werdegang li::after{left:0; top:5px}
+  .werdegang .yr{position:static; display:block; margin-bottom:7px}
+}
 @media (max-width:620px){
-  .cv li{grid-template-columns:1fr; gap:3px}
-  .cv .yr{padding-top:0}
   /* Auf schmalen Geraeten nur Wortmarke und Umschalter.
      Die Abschnitte erreicht man durch Scrollen, die Knoepfe stehen im Hero. */
   .nav{flex-wrap:nowrap}
