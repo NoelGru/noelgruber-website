@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /impressum
 Disallow: /datenschutz
+Disallow: /entwurf/
 
 Sitemap: https://noelgruber.de/sitemap.xml
