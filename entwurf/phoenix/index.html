@@ -23,7 +23,10 @@ a{color:inherit;text-decoration:none}
 .navl{display:flex;gap:26px;color:rgba(243,239,231,.82)}
 
 .hero{position:relative;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
-.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.56) saturate(1.05)}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:brightness(.44) saturate(1.08) contrast(1.04)}
+.hero::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(15,14,12,.78) 0%,rgba(15,14,12,.35) 55%,rgba(15,14,12,.55) 100%)}
 .hero__in{position:relative;z-index:2;width:100%;padding-bottom:58px}
 .hero h1{font-size:clamp(44px,5.8vw,76px);max-width:16ch}
 .hero p{margin:20px 0 0;max-width:46ch;font-size:17.5px;color:rgba(243,239,231,.86)}
@@ -119,7 +122,7 @@ body[data-stand="2027"] .nur-jetzt{display:none}
 <div class="nur-jetzt">
 
 <header class="hero">
-  <img src="bilder/saunagarten-kelo-teich-sauna-gesamt.jpg" alt="Kelo-Sauna am Teich im Saunagarten">
+  <img src="bilder/kelo-teich-sauna.jpg" alt="Blick in die Kelo-Teich-Sauna">
   <nav class="nav"><span class="marke">PHÖNIX</span>
     <span class="navl"><a>Saunawelt</a><a>Aufgüsse</a><a>Preise</a><a>Day Spa</a><a>Anfahrt</a></span></nav>
   <div class="hero__in"><div class="wrap">
@@ -148,16 +151,17 @@ body[data-stand="2027"] .nur-jetzt{display:none}
   <div class="band__t"><p class="mono">Die Saunen</p><h2>Fünf Klimata, eines passt immer</h2>
     <p>Von 48 Grad im Naturstein-Dampfbad bis 95 Grad in der Stollen-Sauna. Während des Umbaus sind vier Saunen und ein Dampfbad geöffnet, dazu die Solewelt.</p>
     <div class="tags"><span>Kelo-Stämme</span><span>Blick auf den Teich</span><span>98 % Luftfeuchte</span></div></div>
-  <div class="band__b"><img src="bilder/kelo-teich-sauna.jpg" alt="Kelo-Teich-Sauna"></div>
+  <div class="band__b"><img src="bilder/naturstein-dampfbad.jpg" alt="Naturstein-Dampfbad"></div>
 </section>
 
 <section class="band">
   <div class="band__t"><p class="mono">Die Aufgüsse</p><h2>Bis zu 20 am Tag</h2>
     <p>Elf verschiedene Zeremonien, darunter die Klassiker Eis-Aufguss und Tibet-Aufguss. Auch während des Umbaus bleibt das Programm vollständig.</p>
-    <div class="zeiten" style="grid-template-columns:repeat(2,1fr)">
-      <div class="z jetzt"><div class="u">15:00</div><div class="w">Eis-Aufguss</div><div class="o">Kelo-Teich-Sauna</div></div>
-      <div class="z"><div class="u">16:00</div><div class="w">Tibet</div><div class="o">Stollen-Sauna</div></div>
-    </div></div>
+    <p style="margin-top:12px;color:var(--mut);font-size:15.4px">Der Eis-Aufguss läuft Montag bis Samstag um 18 und 21 Uhr in der Kelo-Teich-Sauna, sonntags und feiertags um 18 und 20 Uhr. Am Wochenende wird daraus der Arktis-Aufguss.</p>
+    <div class="cta" style="margin-top:24px">
+      <a class="btn" href="https://phoenixbad.de/wp-content/uploads/2026/03/PB_Aufgussplan-Umbau2026_A4_270226.pdf" target="_blank" rel="noopener">Zum Aufgussplan</a>
+    </div>
+  </div>
   <div class="band__b"><img src="bilder/kelosauna.jpg" alt="Kelosauna"></div>
 </section>
 
