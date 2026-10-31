@@ -12,6 +12,8 @@ datenschutz.html  Datenschutzerklärung
 stil.css          gesamtes Aussehen, inkl. Schrift-Einbindung
 seite.js          Punkteraster, Cursor-Vorschau, Formular
 api/anfrage.js    nimmt das Formular entgegen und schickt es per E-Mail
+api/tour.js       liefert /touren/<tour> mit Titel und Vorschaubild für geteilte Links
+touren/           Tourenbuch: Seite, Aussehen, Logik, supabase-js (lokal)
 schriften/        Archivo + Instrument Serif, lokal (kein Google-Aufruf)
 bilder/           Porträts und Projekt-Screenshots
 vercel.json       saubere URLs, Sicherheits-Header, Caching
@@ -80,3 +82,20 @@ Danach in `index.html` die `og:image`-Zeile auf die volle Adresse setzen und in
   stattdessen ein Bild in der Zeile angezeigt.
 - **Das Formular** meldet sich mit einer klaren Fehlermeldung samt E-Mail-Adresse,
   falls der Versand ausfällt — es geht also nie eine Anfrage still verloren.
+
+## Tourenbuch (/touren)
+
+Meine Wanderungen, öffentlich unter https://noelgruber.de/touren, jede Tour mit eigenem
+Link (`/touren/<tour>`). Daten und Fotos liegen im Supabase-Projekt **tourenbuch**
+(Region Frankfurt): Tabelle `tours` (`id` = Link-Name, `data` = alle Angaben als JSON) und
+der öffentliche Speicher `fotos`. Lesen darf jeder, schreiben nur die Adresse
+`noel.gruber98@gmail.com` (Row Level Security).
+
+- **Eintragen:** unten auf der Seite „Anmelden“, Login-Link kommt per Mail.
+- **Einmalig in Supabase einstellen**, sonst führt der Login-Link ins Leere:
+  *Authentication → URL Configuration* → Site URL `https://noelgruber.de`,
+  Redirect URLs `https://noelgruber.de/touren**`.
+- Kostenlose Supabase-Projekte pausieren nach etwa einer Woche ohne Aufrufe; im
+  Dashboard wieder starten.
+- Offener Punkt wie bei Vercel: ob für Supabase ein Vertrag zur Auftragsverarbeitung
+  besteht, ist noch nicht geprüft. Die Datenschutzerklärung behauptet keinen.

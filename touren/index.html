@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--META-->
+<title>Tourenbuch · Noel Gruber</title>
+<meta name="description" content="Meine Wanderungen rund um München: Strecke, Höhenmeter, Anreise, Einkehr und Fotos.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Noel Gruber">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://noelgruber.de/touren">
+<meta property="og:title" content="Tourenbuch · Noel Gruber">
+<meta property="og:description" content="Meine Wanderungen rund um München: Strecke, Höhenmeter, Anreise, Einkehr und Fotos.">
+<meta name="twitter:card" content="summary_large_image">
+<!--/META-->
+<meta name="theme-color" content="#0A1120">
+<link rel="preload" href="/schriften/bigshoulders-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/schriften/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://beugtfvyoseobcevaqmu.supabase.co" crossorigin>
+<link rel="stylesheet" href="/touren/touren.css">
+</head>
+<body>
+<header class="top" id="top">
+  <div class="wrap top-bar"><h1 class="brand"><a href="/touren" style="color:inherit;text-decoration:none">Tourenbuch</a></h1><button id="newBtn" class="round" aria-label="Neue Tour eintragen" hidden>+</button></div>
+  <div class="wrap hero-stat">
+    <div class="big num" id="bigHm" aria-describedby="tally">0</div>
+    <p class="hero-sub" id="tally"></p>
+  </div>
+</header>
+
+<main>
+  <section id="browse" class="wrap">
+    <div class="toolbar">
+      <div class="tabs" role="tablist" aria-label="Ansicht">
+        <button id="tabList" role="tab" aria-selected="true">Touren</button>
+        <button id="tabMap" role="tab" aria-selected="false">Karte</button>
+      </div>
+      <button class="chip" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">Suchen &amp; Filtern</button>
+    </div>
+    <div id="filterPanel" class="filter-panel" hidden>
+      <input id="q" class="search" type="search" placeholder="Suchen: Gipfel, Hütte, Region …" aria-label="Touren durchsuchen">
+      <div class="filters">
+        <button class="chip" id="fOepnv" aria-pressed="false">Mit Öffis</button>
+        <button class="chip" data-diff="blau" aria-pressed="false"><i class="dot blau"></i>Leicht</button>
+        <button class="chip" data-diff="rot" aria-pressed="false"><i class="dot rot"></i>Mittel</button>
+        <button class="chip" data-diff="schwarz" aria-pressed="false"><i class="dot schwarz"></i>Schwer</button>
+        <select id="fRegion" class="select" aria-label="Region"><option value="">Alle Regionen</option></select>
+        <span class="spacer"></span>
+        <select id="sort" class="select" aria-label="Sortierung">
+          <option value="date">Neueste zuerst</option>
+          <option value="rating">Beste Bewertung</option>
+          <option value="near">Nächste zu München</option>
+          <option value="ascent">Meiste Höhenmeter</option>
+          <option value="short">Kürzeste Gehzeit</option>
+        </select>
+      </div>
+    </div>
+    <p class="status" id="status" hidden></p>
+    <div id="grid" class="grid"></div>
+    <div id="mapPane" hidden>
+      <div class="mapbox">
+        <svg id="map" viewBox="0 0 800 420" role="img" aria-label="Karte Südbayern mit allen Touren"></svg>
+        <div class="map-legend">
+          <span><i class="dot blau"></i>Leicht (blauer Bergweg)</span>
+          <span><i class="dot rot"></i>Mittel (roter Bergweg)</span>
+          <span><i class="dot schwarz"></i>Schwer (schwarzer Bergweg)</span>
+          <span>Ringe: Luftlinie ab München</span>
+        </div>
+      </div>
+      <div id="mapSel" class="map-sel"></div>
+      <div id="mapList" class="map-list"></div>
+    </div>
+  </section>
+  <section id="detail" class="detail" hidden></section>
+  <section id="form" class="wrap formpage" hidden></section>
+</main>
+
+<footer class="wrap foot">
+  <span>Tourenbuch von <a href="/">Noel Gruber</a></span>
+  <span class="spacer"></span>
+  <a href="/impressum">Impressum</a>
+  <a href="/datenschutz">Datenschutz</a>
+  <button id="loginBtn" type="button">Anmelden</button>
+  <form id="loginForm" class="login" hidden>
+    <label for="loginMail" class="sr">E-Mail-Adresse</label>
+    <input id="loginMail" type="email" autocomplete="email" placeholder="E-Mail-Adresse" required>
+    <button class="btn primary" type="submit">Login-Link senden</button>
+    <p id="loginNote" role="status">Nur zum Eintragen und Bearbeiten. Ansehen geht ohne Anmeldung.</p>
+  </form>
+</footer>
+<div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="Foto">
+  <img id="lbImg" alt="">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Schließen">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Vorheriges Foto">‹</button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Nächstes Foto">›</button>
+  <div class="lb-count" id="lbCount"></div>
+</div>
+<div id="toast" class="toast" hidden role="status"></div>
+
+<script src="/touren/supabase.js"></script>
+<script src="/touren/touren.js"></script>
+</body>
+</html>
