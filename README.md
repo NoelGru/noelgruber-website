@@ -99,3 +99,18 @@ der öffentliche Speicher `fotos`. Lesen darf jeder, schreiben nur die Adresse
   Dashboard wieder starten.
 - Offener Punkt wie bei Vercel: ob für Supabase ein Vertrag zur Auftragsverarbeitung
   besteht, ist noch nicht geprüft. Die Datenschutzerklärung behauptet keinen.
+
+## Bewerbungen (/bewerbungen, privat)
+
+Nachfolger der lokalen Bewerbungsspur. Nirgends verlinkt, nicht in der Sitemap, nicht in
+`robots.txt` (sonst wäre der Pfad öffentlich), `noindex, nofollow` per Meta-Tag und
+`X-Robots-Tag`. Ohne Anmeldung zeigt die Seite nur die Login-Maske und lädt keine Daten.
+
+- **Daten:** Supabase-Projekt **tourenbuch**, Tabelle `bewerbungen`. Row Level Security:
+  lesen, anlegen, ändern, löschen nur für `user_id = auth.uid()`, `anon` hat keine Rechte.
+- **Auslesen der Stellenanzeige:** Edge Function `stelle-lesen` (Quelltext unter
+  `supabase/functions/`, wird in Supabase deployt, `.vercelignore` hält ihn von der Website fern).
+  Nimmt nur Aufrufe mit echter Sitzung an.
+- **Login-Link:** In Supabase unter *Authentication → URL Configuration* muss
+  `https://noelgruber.de/bewerbungen**` in den Redirect URLs stehen.
+- Dateien: `bewerbungen/index.html`, `bewerbungen.css` (baut auf `stil.css` auf), `bewerbungen.js`.

@@ -1,0 +1,192 @@
+/* ───────── Bewerbungen ─────────
+   Baut auf stil.css auf: dieselben Farben, Schriften, Rundungen, Knöpfe und Felder.
+   Hier steht nur, was es auf der Startseite nicht gibt. */
+
+/* Statusfarben aus der vorhandenen Palette */
+:root{
+  --s-beworben:var(--glow);
+  --s-bestaetigt:rgba(var(--punkt),.5);
+  --s-interview:var(--hinweis-ink);
+  --s-zusage:var(--ink);
+  --s-absage:var(--dim);
+  --s-still:var(--mut);
+}
+
+[hidden]{display:none !important}
+main section{padding-block:0}
+
+/* ── Abmelden in der Navigation ───── */
+.bw-abmelden{
+  font:inherit; font-size:14px; color:var(--mut); background:transparent; border:0; padding:6px 0; cursor:pointer;
+}
+.bw-abmelden:hover{color:var(--ink)}
+@media (max-width:620px){ .bw-abmelden{margin-right:14px} }
+
+.bw-laden{color:var(--dim); font-size:14px; padding-block:80px}
+
+/* ── Login ───────────────────────── */
+.bw-login{padding-block:clamp(40px,10vh,120px) clamp(60px,12vh,140px) !important}
+.bw-login__kasten{max-width:520px; margin-inline:auto}
+.bw-login__titel{font-size:clamp(34px,6vw,54px); margin:16px 0 30px; max-width:none}
+
+/* ── Kopf mit Kennzahlen ─────────── */
+.bw-kopf{padding-block:clamp(30px,5vw,64px) clamp(36px,5vw,60px) !important}
+.bw-titel{font-size:clamp(34px,6.4vw,76px); max-width:18ch; margin-top:16px; text-wrap:balance}
+.bw-zahlen{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(18px,3vw,40px); margin-top:clamp(34px,5vw,56px);
+}
+.bw-zahlen > div{border-top:1px solid var(--line2); padding-top:16px}
+.bw-zahlen b{display:block; font-size:clamp(30px,4.4vw,48px); font-weight:700; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums}
+.bw-zahlen span{display:block; margin-top:9px; color:var(--mut); font-size:14.5px}
+
+.bw-verteilung{margin-top:clamp(28px,4vw,42px)}
+.bw-balken{display:flex; gap:3px; height:10px; border-radius:999px; overflow:hidden; background:var(--line)}
+.bw-balken button{border:0; padding:0; min-width:6px; cursor:pointer; transition:opacity .2s}
+.bw-balken button:hover{opacity:.75}
+.bw-legende{display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:16px}
+.bw-legende button{
+  display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:13.5px; color:var(--mut);
+  background:transparent; border:0; padding:4px 0; cursor:pointer;
+}
+.bw-legende button:hover,.bw-legende button[aria-pressed="true"]{color:var(--ink)}
+.bw-legende button[aria-pressed="true"] b{text-decoration:underline; text-underline-offset:3px}
+.bw-legende b{color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums}
+.bw-legende .leer{opacity:.45}
+.bw-punkt{width:9px; height:9px; border-radius:50%; flex:none}
+
+/* ── Formular ────────────────────── */
+.bw-neu{padding-block:0 clamp(44px,6vw,80px) !important}
+.bw-form{display:grid; gap:22px}
+.bw-form__kopf{display:flex; align-items:flex-end; gap:16px}
+.bw-form__titel{font-size:clamp(24px,3.2vw,34px); margin-top:12px}
+.bw-link__zeile{display:flex; gap:10px}
+.bw-link__zeile input{flex:1; min-width:0}
+.bw-link .fnote{margin-top:9px}
+.bw-felder{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px}
+.bw-felder .f:nth-child(1),.bw-felder .f:nth-child(2){grid-column:span 2}
+.bw-breit{grid-column:1 / -1}
+.f textarea{min-height:84px}
+.f input[type="date"]{min-height:49px}
+.bw-form__fuss{display:flex; flex-wrap:wrap; align-items:center; gap:12px 14px}
+.bw-form__fuss .fnote{flex:1 1 220px}
+.btn.bw-klein{padding:11px 20px; font-size:14.5px; white-space:nowrap}
+.bw-form.liest #auslesen{opacity:.55; cursor:progress}
+@keyframes bw-blitz{from{border-color:var(--glow); box-shadow:0 0 0 3px rgba(var(--punkt),.18)}}
+.bw-blitz{animation:bw-blitz 1.4s ease-out}
+
+/* ── Werkzeugleiste ──────────────── */
+.bw-liste{padding-block:0 clamp(60px,8vw,110px) !important}
+.bw-werkzeuge{display:flex; flex-wrap:wrap; align-items:center; gap:10px}
+.bw-chips{display:flex; gap:6px; margin-right:auto}
+.bw-chip{
+  font:inherit; font-size:14px; font-weight:600; padding:9px 18px; border-radius:999px; cursor:pointer;
+  background:transparent; color:var(--mut); border:1px solid var(--line2); transition:color .2s, border-color .2s, background .2s;
+}
+.bw-chip:hover{color:var(--ink); border-color:var(--mut)}
+.bw-chip[aria-pressed="true"]{background:var(--ink); color:var(--btn-ink); border-color:var(--ink)}
+.bw-suche,.bw-select{
+  font:inherit; font-size:14.5px; color:var(--ink); background:var(--feld);
+  border:1px solid var(--line2); border-radius:999px; padding:10px 16px; min-width:0;
+}
+.bw-suche{width:200px}
+.bw-suche::placeholder{color:var(--platz)}
+.bw-suche:focus,.bw-select:focus{border-color:var(--glow); outline:none}
+.bw-select{
+  appearance:none; -webkit-appearance:none; padding-right:36px; cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);
+  background-position:calc(100% - 19px) 52%, calc(100% - 14px) 52%; background-size:5px 5px; background-repeat:no-repeat;
+}
+.bw-auswahl{margin:16px 0 0}
+
+/* ── Liste ───────────────────────── */
+.bw-monat{
+  display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  margin:clamp(34px,4vw,48px) 0 12px; padding-bottom:10px; border-bottom:1px solid var(--line2);
+}
+.bw-monat h3{font-size:19px; letter-spacing:-.03em}
+.bw-monat span{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.bw-reihen{display:flex; flex-direction:column; gap:8px}
+.bw-reihen--flach{margin-top:clamp(24px,3vw,34px)}
+
+.bw-eintrag{
+  display:grid; grid-template-columns:minmax(0,1fr) 112px 206px 176px; gap:10px 20px; align-items:center;
+  padding:14px 16px 14px 18px; border:1px solid var(--line); border-radius:var(--r-m); background:var(--surf);
+  transition:border-color .25s;
+}
+.bw-eintrag:hover{border-color:var(--pj-hover)}
+.bw-eintrag.bearbeitet{border-color:var(--glow)}
+.bw-firma{font-weight:600; font-size:16.5px; letter-spacing:-.02em; line-height:1.3; overflow-wrap:anywhere}
+.bw-firma a{text-decoration:none; border-bottom:1px solid var(--line2); transition:border-color .2s}
+.bw-firma a:hover{border-color:var(--glow)}
+.bw-firma a span{color:var(--dim); font-weight:400; margin-left:3px}
+.bw-position{color:var(--mut); font-size:14.5px; line-height:1.45; margin-top:2px; overflow-wrap:anywhere}
+.bw-extra{display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:7px; font-size:13px; color:var(--dim)}
+.bw-extra a{color:var(--mut); text-decoration:none; border-bottom:1px solid var(--line2)}
+.bw-extra a:hover{color:var(--ink); border-color:var(--glow)}
+.bw-notiz{white-space:pre-line; color:var(--mut); flex-basis:100%; max-width:70ch}
+.bw-datum{font-size:14px; font-variant-numeric:tabular-nums; line-height:1.35}
+.bw-datum small{display:block; font-size:12.5px; color:var(--dim)}
+
+.bw-status{
+  width:100%; font:inherit; font-size:14px; font-weight:600; color:var(--ink); cursor:pointer;
+  background:var(--feld); border:1px solid var(--line2); border-radius:999px; padding:9px 34px 9px 30px;
+  appearance:none; -webkit-appearance:none;
+  background-image:
+    radial-gradient(circle at 15px 50%, var(--farbe) 4.5px, transparent 5px),
+    linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);
+  background-position:0 0, calc(100% - 18px) 52%, calc(100% - 13px) 52%;
+  background-size:auto, 5px 5px, 5px 5px; background-repeat:no-repeat;
+}
+.bw-status:focus{border-color:var(--glow); outline:none}
+
+.bw-aktionen{display:flex; gap:4px; justify-content:flex-end}
+.bw-knopf{
+  font:inherit; font-size:13.5px; color:var(--mut); background:transparent; cursor:pointer;
+  border:1px solid transparent; border-radius:999px; padding:8px 12px; white-space:nowrap; transition:color .2s, border-color .2s;
+}
+.bw-knopf:hover{color:var(--ink); border-color:var(--line2)}
+.bw-knopf--weg{color:var(--err)}
+.bw-knopf--weg:hover{color:var(--err); border-color:var(--err)}
+.bw-frage{font-size:13.5px; color:var(--ink); font-weight:600; align-self:center; margin-right:2px; white-space:nowrap}
+
+.bw-leer{padding:60px 0; text-align:center; color:var(--mut)}
+.bw-leer b{display:block; color:var(--ink); font-size:20px; letter-spacing:-.03em; margin-bottom:6px}
+
+.bw-meldung{
+  position:fixed; left:50%; bottom:max(20px, env(safe-area-inset-bottom)); transform:translateX(-50%);
+  background:var(--ink); color:var(--btn-ink); font-size:14.5px; font-weight:600;
+  padding:12px 20px; border-radius:999px; z-index:50; box-shadow:var(--k-schatten);
+}
+
+/* ── Schmale Bildschirme ─────────── */
+@media (max-width:900px){
+  .bw-eintrag{grid-template-columns:minmax(0,1fr) 206px; grid-template-areas:"titel status" "datum aktionen"}
+  .bw-eintrag > :nth-child(1){grid-area:titel}
+  .bw-eintrag > :nth-child(2){grid-area:datum}
+  .bw-eintrag > :nth-child(3){grid-area:status}
+  .bw-eintrag > :nth-child(4){grid-area:aktionen}
+  .bw-datum small{display:inline; margin-left:8px}
+}
+.bw-hand{display:none}
+@media (max-width:720px){
+  /* Auf dem Handy bleibt das Formular zu, bis ein Link drin ist oder man von Hand einträgt */
+  .bw-form:not(.offen) .bw-felder,.bw-form:not(.offen) .bw-form__fuss{display:none}
+  .bw-form:not(.offen) .bw-hand{display:inline; font:inherit; font-size:13px; color:var(--mut); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+  .bw-zahlen{grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:24px}
+  .bw-felder{grid-template-columns:1fr 1fr}
+  .bw-felder .f:nth-child(1),.bw-felder .f:nth-child(2){grid-column:1 / -1}
+  .bw-werkzeuge{display:grid; grid-template-columns:1fr 1fr}
+  .bw-chips{grid-column:1 / -1; margin:0}
+  .bw-chip{flex:1}
+  .bw-suche{width:auto; grid-column:1 / -1}
+  .bw-werkzeuge .btn{justify-content:center}
+}
+@media (max-width:560px){
+  .bw-eintrag{grid-template-columns:1fr; grid-template-areas:"titel" "datum" "status" "aktionen"; padding:16px}
+  .bw-aktionen{justify-content:flex-start; margin-left:-12px}
+  .bw-link__zeile{flex-direction:column}
+  .bw-link__zeile .btn{justify-content:center}
+  .bw-felder{grid-template-columns:1fr}
+  .bw-form__fuss .btn{flex:1; justify-content:center}
+}
