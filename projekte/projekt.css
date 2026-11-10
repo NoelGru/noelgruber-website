@@ -1,0 +1,43 @@
+/* Projektseiten unter /projekte – bauen auf stil.css auf, nur Ergänzungen. */
+
+.pkopf{padding-block:clamp(36px,7vw,90px) clamp(30px,5vw,56px)}
+.pkopf h1{max-width:none}
+.zurueck{color:var(--mut); text-decoration:none}
+.zurueck:hover{color:var(--ink)}
+
+/* Screenshot: Rahmen wie die Projektbilder auf der Startseite */
+.shot{border:1px solid var(--line); border-radius:var(--r-m); overflow:hidden; background:var(--surf); box-shadow:var(--k-schatten)}
+.shot img{width:100%; height:auto}
+.shot-text{margin:14px 0 0; font-size:13px; color:var(--dim)}
+
+/* Die Bilder gibt es hell und dunkel – sichtbar ist das, was zur Ansicht passt */
+.bild-hell{display:none}
+:root[data-theme="light"] .bild-hell{display:block}
+:root[data-theme="light"] .bild-dunkel{display:none}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]) .bild-hell{display:block}
+  :root:not([data-theme="dark"]) .bild-dunkel{display:none}
+}
+
+/* Kennzahlen: Linie oben, wie die Leistungen */
+.zahlen{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(20px,3vw,40px); margin-top:clamp(40px,6vw,72px)}
+.zahlen div{border-top:1px solid var(--line2); padding-top:18px}
+.zahlen b{display:block; font-size:clamp(32px,4vw,46px); letter-spacing:-.045em; line-height:1}
+.zahlen span{display:block; margin-top:10px; color:var(--mut); font-size:14.5px; line-height:1.45}
+
+/* Störung: Text links, Bild rechts */
+.stoerung{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(26px,4vw,56px); align-items:center}
+.stoerung h2{font-size:clamp(28px,4vw,46px); margin-top:16px; max-width:14ch}
+.stoerung p{margin:20px 0 0; color:var(--mut); font-size:16.5px; max-width:48ch}
+
+/* Technik als ruhige Liste */
+.chips{display:flex; flex-wrap:wrap; gap:10px; margin:0; padding:0; list-style:none}
+.chips li{border:1px solid var(--line2); border-radius:999px; padding:7px 15px; font-size:14px; color:var(--mut)}
+.chips + .mono{margin-top:30px}
+.technik .mono{margin-bottom:14px}
+.how .howh{margin-bottom:20px}
+
+@media (max-width:900px){
+  .zahlen{grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:30px}
+  .stoerung{grid-template-columns:1fr}
+}

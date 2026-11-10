@@ -13,6 +13,7 @@ stil.css          gesamtes Aussehen, inkl. Schrift-Einbindung
 seite.js          Punkteraster, Cursor-Vorschau, Formular
 api/anfrage.js    nimmt das Formular entgegen und schickt es per E-Mail
 api/tour.js       liefert /touren/<tour> mit Titel und Vorschaubild für geteilte Links
+projekte/         Projektseiten (z. B. /projekte/lead-data-hub), Aussehen in projekt.css
 touren/           Tourenbuch: Seite, Aussehen, Logik, supabase-js (lokal)
 schriften/        Archivo + Instrument Serif, lokal (kein Google-Aufruf)
 bilder/           Porträts und Projekt-Screenshots
@@ -114,3 +115,13 @@ Nachfolger der lokalen Bewerbungsspur. Nirgends verlinkt, nicht in der Sitemap, 
 - **Login-Link:** In Supabase unter *Authentication → URL Configuration* muss
   `https://noelgruber.de/bewerbungen**` in den Redirect URLs stehen.
 - Dateien: `bewerbungen/index.html`, `bewerbungen.css` (baut auf `stil.css` auf), `bewerbungen.js`.
+
+## Projektseiten (/projekte)
+
+Ausführliche Seiten zu einzelnen Projekten, öffentlich und in der Sitemap. Aufbau wie die
+Startseite (`stil.css`, `seite.js`), Ergänzungen in `projekte/projekt.css`.
+
+- **Lead Data Hub** (`/projekte/lead-data-hub`): Referenzprojekt für Bewerbungen. Code im
+  Repository `NoelGru/lead-data-hub`. Die Screenshots in `bilder/projekte/lead-data-hub/`
+  gibt es hell und dunkel; angezeigt wird, was zur gewählten Ansicht passt. Alle Firmen und
+  Personen darin sind erfunden (eigene Demo-Datenbank, keine echten Konten sichtbar).

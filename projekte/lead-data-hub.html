@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Data Hub · Noel Gruber</title>
+<meta name="description" content="Referenzprojekt von Noel Gruber: Anfragen aus einem Website-Formular landen sicher im CRM, das Team bekommt sofort Bescheid, und wenn unterwegs etwas hakt, geht nichts verloren.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Noel Gruber">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://noelgruber.de/projekte/lead-data-hub">
+<meta property="og:title" content="Lead Data Hub · Noel Gruber">
+<meta property="og:description" content="Webhook, Warteschlange, HubSpot, Slack, KI und ein Dashboard mit Firmen-Login – gebaut, wie man es in einem Unternehmen betreiben würde.">
+<meta property="og:image" content="https://noelgruber.de/bilder/projekte/lead-data-hub/uebersicht-dunkel.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
+<meta property="og:image:alt" content="Dashboard des Lead Data Hub mit erfundenen Beispiel-Anfragen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#070809">
+<link rel="preload" href="/schriften/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/stil.css">
+<link rel="stylesheet" href="/projekte/projekt.css">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body>
+
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="/"><svg class="logo" viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><rect class="logo__feld" width="48" height="48" rx="11"/><text class="logo__text" x="20" y="31" text-anchor="middle" font-family="Archivo" font-weight="700" font-size="22" letter-spacing="-1.6">ng</text><circle class="logo__punkt" cx="37" cy="29" r="3.2"/></svg><span>Noel Gruber</span></a>
+    <div class="navlinks">
+      <a href="/#projekte">Alle Projekte</a>
+      <a href="/#kontakt">Kontakt</a>
+      <button class="thema" type="button" aria-pressed="false" aria-label="Zur hellen Ansicht wechseln" title="Zur hellen Ansicht wechseln"><svg class="mond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sonne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </div>
+  </nav>
+</div>
+
+<main id="inhalt">
+
+<!-- ───────── Kopf ───────── -->
+<header class="wrap pkopf">
+  <p class="mono"><a class="zurueck" href="/#projekte">← Projekte</a> · Referenzprojekt</p>
+  <h1>Lead Data <span class="ser">Hub</span>.</h1>
+  <p class="sub">Anfragen aus einem Website-Formular landen sicher im CRM, das Team bekommt sofort Bescheid, und wenn unterwegs etwas hakt, geht nichts verloren. Gebaut, um zu zeigen, wie ich Systeme zuverlässig miteinander verbinde.</p>
+  <div class="cta">
+    <a class="btn" href="https://github.com/NoelGru/lead-data-hub" target="_blank" rel="noopener">Code auf GitHub ↗</a>
+    <a class="btn btn--g" href="#ablauf">Wie er funktioniert</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <figure style="margin:0">
+    <div class="shot">
+      <img class="bild-dunkel" src="/bilder/projekte/lead-data-hub/uebersicht-dunkel.jpg" alt="Dashboard des Lead Data Hub: Kennzahlen, ein Fall im Klärungsfach mit Knopf „Erneut ausführen“" width="1600" height="1000">
+      <img class="bild-hell" src="/bilder/projekte/lead-data-hub/uebersicht-hell.jpg" alt="Dashboard des Lead Data Hub in der hellen Ansicht" width="1600" height="1000" loading="lazy">
+    </div>
+    <figcaption class="shot-text">Das Dashboard des Hubs. Alle Firmen und Personen im Bild sind erfunden.</figcaption>
+  </figure>
+
+  <div class="zahlen">
+    <div><b>4</b><span>angebundene Dienste: HubSpot, Slack, Claude, Auth0</span></div>
+    <div><b>193</b><span>automatische Tests, ein Teil davon gegen eine echte Datenbank</span></div>
+    <div><b>90</b><span>Tage, dann löscht der Hub seine Kopie der Anfrage</span></div>
+    <div><b>0</b><span>Zeilen JavaScript im Dashboard, dafür eine strenge Sicherheitsrichtlinie</span></div>
+  </div>
+</div>
+
+<!-- ───────── Problem ───────── -->
+<section><div class="wrap">
+  <div class="hd">
+    <p class="mono">Das Problem</p>
+    <h2>Anfragen dürfen nicht im Postfach versanden.</h2>
+    <p>Ein Formular ist schnell gebaut. Schwieriger ist, was danach passiert: Die Anfrage soll ohne Doppelungen im CRM landen, das Team soll in Minuten Bescheid wissen, und wenn HubSpot oder Slack gerade nicht erreichbar sind, darf trotzdem nichts verloren gehen. Genau diese Strecke habe ich gebaut, so wie man sie in einem Unternehmen betreiben würde.</p>
+  </div>
+</div></section>
+
+<!-- ───────── Ablauf ───────── -->
+<section id="ablauf" style="padding-top:0"><div class="wrap">
+  <div class="hd">
+    <p class="mono">So läuft eine Anfrage durch</p>
+    <h2>Vier Schritte, keiner geht verloren.</h2>
+  </div>
+  <ol class="steps">
+    <li><span class="sn">1</span><h3>Annehmen</h3><p>Das Formular schickt die Anfrage signiert an den Hub. Nur echte, unveränderte Anfragen kommen rein, und jede genau einmal, auch wenn sie doppelt geschickt wird.</p></li>
+    <li><span class="sn">2</span><h3>Einordnen</h3><p>Auf Wunsch sortiert Claude nach Branche und Dringlichkeit. Dabei gehen nur Firma, Website und Nachricht raus, ohne Kontaktdaten, und ein Tageslimit begrenzt die Kosten.</p></li>
+    <li><span class="sn">3</span><h3>Ins CRM</h3><p>Der Kontakt wird in HubSpot angelegt oder aktualisiert. Die Verbindung läuft über OAuth, die Zugangsschlüssel liegen verschlüsselt in der Datenbank.</p></li>
+    <li><span class="sn">4</span><h3>Team informieren</h3><p>In Slack erscheint eine kurze Nachricht mit Link zum Kontakt. E-Mail und Telefonnummer bleiben im CRM und landen nicht im Chat.</p></li>
+  </ol>
+</div></section>
+
+<!-- ───────── Störung ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="kasten"><div class="stoerung">
+    <div>
+      <p class="mono">Wenn etwas schiefgeht</p>
+      <h2>Störungen landen im <span class="ser">Klärungsfach.</span></h2>
+      <p>Kurze Ausfälle heilen sich selbst: Der Hub versucht es mit wachsenden Pausen erneut. Ist ein Fehler dauerhaft, etwa weil ein Slack-Kanal gelöscht wurde, wartet der Schritt im Klärungsfach. Dort steht, was passiert ist, und ein Klick holt ihn nach, sobald die Ursache behoben ist.</p>
+      <p>Wer geklickt hat, steht im Protokoll, mit dem Namen aus dem Firmen-Login.</p>
+    </div>
+    <div class="shot">
+      <img class="bild-dunkel" src="/bilder/projekte/lead-data-hub/verlauf-dunkel.jpg" alt="Verlauf einer Anfrage: Einordnung und CRM erledigt, Slack-Nachricht im Klärungsfach mit Knopf „Erneut ausführen“" width="1600" height="1437" loading="lazy">
+      <img class="bild-hell" src="/bilder/projekte/lead-data-hub/verlauf-hell.jpg" alt="Verlauf einer Anfrage in der hellen Ansicht" width="1600" height="1437" loading="lazy">
+    </div>
+  </div></div>
+</div></section>
+
+<!-- ───────── Entscheidungen ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="hd">
+    <p class="mono">Unter der Haube</p>
+    <h2>Entscheidungen, die ich erklären kann.</h2>
+    <p>Jede davon hat Alternativen. Warum ich mich so entschieden habe, steht im Repository, mit dem, was dagegen sprach.</p>
+  </div>
+  <div class="svc">
+    <div><h3>Warteschlange in der Datenbank</h3><p>Statt eines zusätzlichen Dienstes wie Redis eine Tabelle in Postgres. Anfrage und erster Arbeitsschritt werden in einem Zug gespeichert, es gibt also keinen Moment, in dem eins ohne das andere existiert.</p></div>
+    <div><h3>Genau einmal annehmen</h3><p>Jede Anfrage trägt eine eindeutige Kennung. Kommt sie doppelt, antwortet der Hub „kenne ich schon“, legt aber nichts doppelt an. Der Absender darf also gefahrlos wiederholen.</p></div>
+    <div><h3>Ein Stecker für alle Dienste</h3><p>HubSpot, Slack und die KI hängen an derselben Schnittstelle. Ein anderes CRM wäre ein neuer Baustein, kein Umbau.</p></div>
+    <div><h3>Login mit dem Firmenkonto</h3><p>Das Dashboard nutzt OpenID Connect, hier mit Auth0. Mit Microsoft Entra oder Google liefe es genauso. Passwörter sieht der Hub nie.</p></div>
+    <div><h3>Datenschutz von Anfang an</h3><p>Logs schwärzen Namen und Kontaktdaten, nach 90 Tagen löscht der Hub seine Kopie, und eine Löschanfrage ist ein einziger Befehl.</p></div>
+    <div><h3>Betrieb mitgedacht</h3><p>Ein Gesundheits-Check, durchsuchbare Logs mit Vorgangsnummer und ein Runbook, damit auch jemand helfen kann, der den Code nicht geschrieben hat.</p></div>
+  </div>
+</div></section>
+
+<!-- ───────── Technik und Entstehung ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="how">
+    <div class="technik">
+      <p class="mono">Technik</p>
+      <ul class="chips">
+        <li>Node.js 24</li><li>TypeScript</li><li>Fastify</li><li>PostgreSQL</li><li>zod</li><li>Vitest</li><li>GitHub Actions</li><li>Docker</li>
+      </ul>
+      <p class="mono">Angebunden</p>
+      <ul class="chips">
+        <li>HubSpot API</li><li>Slack</li><li>Claude API</li><li>Auth0 (OpenID Connect)</li>
+      </ul>
+    </div>
+    <div>
+      <p class="mono">Wie er entstanden ist</p>
+      <h3 class="howh">In acht Phasen, mit Claude Code</h3>
+      <p>Gebaut habe ich den Hub Schritt für Schritt mit Claude Code. Nach jeder Phase habe ich festgehalten, was entstanden ist, welche Alternativen es gab und warum ich mich so entschieden habe. Wichtig war mir, dass ich jede Zeile erklären kann, nicht nur, dass sie läuft.</p>
+      <p>Der Hub arbeitet ausschließlich mit Testdaten und Testkonten. Online steht er bewusst nicht, im Gespräch zeige ich ihn gern live.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ───────── Kontakt ───────── -->
+<section class="contact" style="padding-top:0"><div class="wrap">
+  <div class="kasten">
+    <p class="mono">Live ansehen</p>
+    <h2>Fünf Minuten, eine Anfrage, eine Störung.</h2>
+    <p class="sub">Im Gespräch zeige ich den Hub gern in Aktion: eine Anfrage schicken, eine Störung auslösen und sie beheben. Und danach reden wir über die Entscheidungen dahinter.</p>
+    <div class="cta">
+      <a class="btn" href="mailto:noel.gruber98@gmail.com?subject=Lead%20Data%20Hub">Schreib mir</a>
+      <a class="btn btn--g" href="https://github.com/NoelGru/lead-data-hub" target="_blank" rel="noopener">Code auf GitHub ↗</a>
+    </div>
+  </div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 Noel Gruber</span>
+  <span>München</span>
+  <a href="/">Startseite</a>
+  <a href="/impressum">Impressum</a>
+  <a href="/datenschutz">Datenschutz</a>
+</div></footer>
+
+<script src="/seite.js"></script>
+</body>
+</html>
