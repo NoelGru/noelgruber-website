@@ -128,6 +128,13 @@ Startseite (`stil.css`, `seite.js`), Ergänzungen in `projekte/projekt.css`.
 
 ## Customer Health Dashboard (/customerhealth, nicht indexiert)
 
+Erklärseite: `projekte/customer-health.html` unter https://noelgruber.de/projekte/customer-health.
+Bewusst nur per Link erreichbar: `noindex` (Meta-Tag und Header), nicht in der Sitemap und keine
+Karte auf der Startseite. Gedacht zum Verschicken an Wemolo. Screenshots in
+`bilder/projekte/customer-health/` (nur hell, das Dashboard hat keine dunkle Ansicht).
+
+Das Dashboard selbst:
+
 Bewerbungs-Prototyp, erreichbar unter https://noelgruber.de/customerhealth, aber nicht in der
 Sitemap und mit `X-Robots-Tag: noindex, nofollow`. Die Seite liegt nicht in diesem Repo:
 `vercel.json` leitet `/customerhealth` per Rewrite an das Vercel-Projekt **customer-health**

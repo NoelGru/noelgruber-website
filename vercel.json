@@ -91,6 +91,24 @@
       ]
     },
     {
+      "source": "/projekte/customer-health(.html)?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/bilder/projekte/customer-health/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
       "source": "/customerhealth",
       "headers": [
         {
