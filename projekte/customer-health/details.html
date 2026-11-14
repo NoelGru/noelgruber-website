@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Health Dashboard, ausführlich · Noel Gruber</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Bewerbungsprojekt von Noel Gruber für das Paid-Parking-Team bei Wemolo: ein Dashboard, das zeigt, welche Parkflächen-Kunden gerade Aufmerksamkeit brauchen, warum, und was der nächste Schritt ist.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Noel Gruber">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://noelgruber.de/projekte/customer-health/details">
+<meta property="og:title" content="Customer Health Dashboard · Noel Gruber">
+<meta property="og:description" content="Ein kleiner Prototyp, den ich für meine Bewerbung bei Wemolo gebaut habe. Er zeigt, welche Parkflächen-Kunden gerade Aufmerksamkeit brauchen und warum.">
+<meta property="og:image" content="https://noelgruber.de/bilder/projekte/customer-health/uebersicht-2.jpg">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
+<meta property="og:image:alt" content="Customer Health Dashboard mit erfundenen Beispielkunden">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#070809">
+<link rel="preload" href="/schriften/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/stil.css">
+<link rel="stylesheet" href="/projekte/projekt.css">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+</head>
+<body>
+
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="/"><svg class="logo" viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><rect class="logo__feld" width="48" height="48" rx="11"/><text class="logo__text" x="20" y="31" text-anchor="middle" font-family="Archivo" font-weight="700" font-size="22" letter-spacing="-1.6">ng</text><circle class="logo__punkt" cx="37" cy="29" r="3.2"/></svg><span>Noel Gruber</span></a>
+    <div class="navlinks">
+      <a href="/#projekte">Alle Projekte</a>
+      <a href="/#kontakt">Kontakt</a>
+      <button class="thema" type="button" aria-pressed="false" aria-label="Zur hellen Ansicht wechseln" title="Zur hellen Ansicht wechseln"><svg class="mond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sonne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </div>
+  </nav>
+</div>
+
+<main id="inhalt">
+
+<!-- ───────── Kopf ───────── -->
+<header class="wrap pkopf">
+  <p class="mono"><a class="zurueck" href="/projekte/customer-health">← Kurzfassung</a> · Bewerbungsprojekt für Wemolo · ausführlich</p>
+  <h1>Customer <span class="ser">Health</span>.</h1>
+  <p class="sub">Für meine Bewerbung als Customer Success Manager im Paid-Parking-Team bei Wemolo habe ich mir überlegt, wie man bei vielen Parkflächen-Kunden früh sieht, wer gerade Aufmerksamkeit braucht und warum. Daraus ist dieser kleine Prototyp entstanden.</p>
+  <div class="cta">
+    <a class="btn" href="/customerhealth" target="_blank" rel="noopener">Dashboard öffnen ↗</a>
+    <a class="btn btn--g" href="#ablauf">Wie es funktioniert</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <figure style="margin:0">
+    <div class="shot">
+      <img src="/bilder/projekte/customer-health/uebersicht-2.jpg" alt="Customer Health Dashboard: vier Kennzahlen, Kundenliste mit Ampel-Score und die Detailansicht des Kreisklinikums Ammertal mit 8-Wochen-Verlauf" width="1600" height="1000">
+    </div>
+    <figcaption class="shot-text">Die Übersicht mit dem Kreisklinikum Ammertal geöffnet. Alle Kunden, Namen und Zahlen sind erfunden, das Dashboard ist nicht mit Wemolo verbunden.</figcaption>
+  </figure>
+
+  <div class="zahlen">
+    <div><b>20</b><span>erfundene Parkflächen-Kunden: Supermärkte, Kliniken, Hotels, Fitnessstudios, Shopping-Center</span></div>
+    <div><b>6</b><span>einfache Regeln für den Health Score, jede mit einem Satz als Begründung</span></div>
+    <div><b>13</b><span>Punkte auf der Onboarding-Checkliste, vom Vertrag bis zum Review nach 30 Tagen</span></div>
+    <div><b>42</b><span>automatische Tests, auch für die Texte, zum Beispiel ob die Anrede stimmt</span></div>
+  </div>
+</div>
+
+<!-- ───────── Ausgangslage ───────── -->
+<section><div class="wrap">
+  <div class="hd">
+    <p class="mono">Die Ausgangslage</p>
+    <h2>Viele Probleme sieht man zuerst in den Zahlen.</h2>
+    <p>Ich stelle mir vor, dass sich bei Parkflächen ohne Schranke viele Probleme zuerst in den Zahlen zeigen. Wenn zum Beispiel ein Bauzaun den Automaten verdeckt, sinkt die Zahlungsquote, lange bevor sich der Kunde meldet. Und im Onboarding hängt einiges an anderen, etwa am Vermieter oder am Stromanschluss.</p>
+    <p>In euren Stellenanzeigen ging es unter anderem um Customer Health, Readiness und Onboarding. Einige dieser Themen habe ich im Dashboard aufgegriffen.</p>
+  </div>
+</div></section>
+
+<!-- ───────── Ablauf ───────── -->
+<section id="ablauf" style="padding-top:0"><div class="wrap">
+  <div class="hd">
+    <p class="mono">So arbeitet man damit</p>
+    <h2>Von der Ampel zur Mail in vier Schritten.</h2>
+  </div>
+  <ol class="steps">
+    <li><span class="sn">1</span><h3>Überblick</h3><p>Vier Kennzahlen und eine Liste, sortiert nach Dringlichkeit. Filter nach Ampel, Segment und Onboarding-Phase zeigen zum Beispiel alle Kliniken im Testbetrieb.</p></li>
+    <li><span class="sn">2</span><h3>Verstehen</h3><p>Jede Ampel hat Begründungen mit echten Zahlen, dazu den Verlauf der letzten acht Wochen und die letzte Notiz aus dem Kundenkontakt.</p></li>
+    <li><span class="sn">3</span><h3>Handeln</h3><p>Die stärkste Regel bestimmt den empfohlenen nächsten Schritt, etwa einen Vor-Ort-Check von Schildern und Automat.</p></li>
+    <li><span class="sn">4</span><h3>Kommunizieren</h3><p>Für gelbe und rote Kunden gibt es einen kurzen Monatsbericht und einen Mail-Entwurf mit konkretem Vorschlag, in Du oder Sie, je nach Ansprechperson.</p></li>
+  </ol>
+</div></section>
+
+<!-- ───────── Health Score ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="kasten"><div class="stoerung">
+    <div>
+      <p class="mono">Der Health Score</p>
+      <h2>Ein Score, den man <span class="ser">nachrechnen kann.</span></h2>
+      <p>Jeder Kunde startet mit 100 Punkten. Jede Regel, die anschlägt, zieht Punkte ab und schreibt einen Satz dazu, zum Beispiel „Zahlungsquote seit 4 Wochen gesunken (von 92 % auf 73 %)“. Ab 85 Punkten ist ein Kunde grün, unter 50 rot.</p>
+      <p>Ein einzelnes kleines Signal löst noch keinen Alarm aus, rot wird ein Kunde erst, wenn mehrere Dinge gleichzeitig schieflaufen. Beim Testen fiel auf, dass ein starkes Warnsignal mit der ersten Grenze von 80 noch grün gewesen wäre, deshalb liegt sie jetzt bei 85.</p>
+    </div>
+    <table class="regeln">
+      <caption class="mono">Regeln und Abzüge</caption>
+      <thead><tr><th scope="col">Signal</th><th scope="col">Abzug</th></tr></thead>
+      <tbody>
+        <tr><td>Zahlungsquote unter 85 % <small>(unter 75 %: stärker)</small></td><td>−15 / −25</td></tr>
+        <tr><td>Zahlungsquote 5 Punkte unter den Vorwochen</td><td>−15</td></tr>
+        <tr><td>Auslastung 15 % unter den Vorwochen</td><td>−20</td></tr>
+        <tr><td>Über 30 Tage kein Kontakt <small>(über 60: stärker)</small></td><td>−10 / −20</td></tr>
+        <tr><td>Ab 3 offenen Tickets <small>(ab 6: stärker)</small></td><td>−10 / −20</td></tr>
+        <tr><td>Onboarding über 21 Tage in einer Phase <small>(über 45: stärker)</small></td><td>−20 / −35</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+</div></section>
+
+<!-- ───────── Bericht und Mail ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="kasten"><div class="stoerung">
+    <div>
+      <p class="mono">Bericht und Mail</p>
+      <h2>Bericht und Mail-Entwurf <span class="ser">auf Knopfdruck.</span></h2>
+      <p>Für die acht gelben und roten Kunden zeigt ein Button einen kurzen Monatsbericht mit Empfehlungen und einen Mail-Entwurf an die Ansprechperson. Die Mails beschreiben das Problem mit konkreten Zahlen und ohne Vorwurf. Außerdem enthalten sie einen Vorschlag, der dem Kunden möglichst wenig Arbeit macht.</p>
+      <p>Die Texte wurden beim Bauen einmalig mit Claude erzeugt und geprüft. Es gibt also keine API-Kosten und keinen Schlüssel im Projekt. Wie man das live anbinden würde, mit Tageslimit und Rückfall auf die vorab erzeugten Texte, steht im Repository.</p>
+    </div>
+    <div class="shot shot--schmal">
+      <img src="/bilder/projekte/customer-health/mail-2.jpg" alt="Empfehlung „Vor-Ort-Check“ und Mail-Entwurf an Claudia Reiter vom Kreisklinikum Ammertal mit konkretem Vorschlag und Terminfrage" width="900" height="1579" loading="lazy">
+    </div>
+  </div></div>
+</div></section>
+
+<!-- ───────── Handy ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="kasten"><div class="stoerung">
+    <div>
+      <p class="mono">Unterwegs</p>
+      <h2>Funktioniert auch <span class="ser">beim Kunden vor Ort.</span></h2>
+      <p>Auf dem Handy wird die Liste zu Karten, die Details öffnen sich als eigene Seite. Jeder Kunde hat einen eigenen Link, den man im Team teilen kann, zum Beispiel <a href="/customerhealth#/kunde/c07" target="_blank" rel="noopener">das Kreisklinikum Ammertal</a>.</p>
+    </div>
+    <div class="shot shot--handy">
+      <img src="/bilder/projekte/customer-health/handy-2.jpg" alt="Das Dashboard auf dem Handy: Kennzahlen als Kacheln, darunter die Kundenliste als Karten" width="720" height="1558" loading="lazy">
+    </div>
+  </div></div>
+</div></section>
+
+<!-- ───────── Entscheidungen ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="hd">
+    <p class="mono">Dahinter</p>
+    <h2>Was ich mir dabei überlegt habe.</h2>
+    <p>Zu jedem Punkt gab es auch andere Möglichkeiten. Ausführlicher steht das im Repository.</p>
+  </div>
+  <div class="svc">
+    <div><h3>Regeln statt Blackbox</h3><p>Ich glaube, einen Score, den niemand erklären kann, nutzt im Team am Ende keiner. Sechs gewichtete Regeln kann jede Kollegin nachrechnen und gemeinsam anpassen.</p></div>
+    <div><h3>Veränderung vor Momentaufnahme</h3><p>Eine Zahlungsquote, die vier Wochen in Folge fällt, sagt mehr als eine, die stabil bei 86 % liegt. Deshalb vergleicht der Score immer mit den Vorwochen.</p></div>
+    <div><h3>Readiness als Checkliste</h3><p>13 Punkte in vier Phasen, für alle Kunden gleich. Sichtbar ist, was in der aktuellen Phase offen ist und ob das geplante Go-live schon überfällig ist.</p></div>
+    <div><h3>Größe entscheidet bei Gleichstand</h3><p>Haben zwei Kunden denselben Score, steht der mit mehr Stellplätzen oben, weil dort mehr auf dem Spiel steht.</p></div>
+    <div><h3>Mails mit Vorschlag</h3><p>Statt „melden Sie sich bei Fragen“ macht jede Mail einen konkreten Vorschlag mit Terminfrage. Und die Mail geht nie automatisch raus, sie ist immer ein Entwurf.</p></div>
+    <div><h3>Erst Skizzen, dann Code</h3><p>Bevor die Oberfläche gebaut wurde, gab es vier Design-Entwürfe und drei Feedback-Runden, weil sich Skizzen viel leichter ändern lassen als fertiger Code.</p></div>
+  </div>
+</div></section>
+
+<!-- ───────── Technik und Entstehung ───────── -->
+<section style="padding-top:0"><div class="wrap">
+  <div class="how">
+    <div class="technik">
+      <p class="mono">Technik</p>
+      <ul class="chips">
+        <li>Vite</li><li>React</li><li>TypeScript</li><li>Tailwind CSS</li><li>Recharts</li><li>Vitest</li><li>Vercel</li>
+      </ul>
+      <p class="mono">Daten und Texte</p>
+      <ul class="chips">
+        <li>JSON im Projekt, kein Backend</li><li>Claude (Texte vorab erzeugt)</li>
+      </ul>
+    </div>
+    <div>
+      <p class="mono">Wie es entstanden ist</p>
+      <h3 class="howh">In sechs Phasen, mit Claude Code</h3>
+      <p>Gebaut habe ich das Dashboard mit Claude Code in sechs Phasen, von der Planung über Beispieldaten und Tests bis zur Oberfläche. Nach jeder Phase habe ich mir zeigen und erklären lassen, was entstanden ist, und erst dann die nächste freigegeben.</p>
+      <p>Alle Kunden, Namen und Zahlen sind erfunden. Das Dashboard ist ein Prototyp und nicht mit Wemolo verbunden.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ───────── Ausprobieren ───────── -->
+<section class="contact" style="padding-top:0"><div class="wrap">
+  <div class="kasten">
+    <p class="mono">Selbst ausprobieren</p>
+    <h2>Am besten einfach mal reinklicken.</h2>
+    <p class="sub">Wenn du nur zwei Minuten hast, öffne das Kreisklinikum Ammertal und klick auf „Bericht &amp; Mail-Entwurf“. Im Gespräch erzähle ich gern mehr dazu, und mich würde interessieren, wie ihr das Thema heute angeht.</p>
+    <div class="cta">
+      <a class="btn" href="/customerhealth#/kunde/c07" target="_blank" rel="noopener">Dashboard öffnen ↗</a>
+      <a class="btn btn--g" href="mailto:noel.gruber98@gmail.com?subject=Customer%20Health%20Dashboard">Schreib mir</a>
+      <a class="btn btn--g" href="https://github.com/NoelGru/customer-health" target="_blank" rel="noopener">Code auf GitHub ↗</a>
+    </div>
+  </div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 Noel Gruber</span>
+  <span>München</span>
+  <a href="/">Startseite</a>
+  <a href="/impressum.html">Impressum</a>
+  <a href="/datenschutz.html">Datenschutz</a>
+</div></footer>
+
+<script src="/seite.js"></script>
+</body>
+</html>

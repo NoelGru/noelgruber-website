@@ -128,7 +128,7 @@ Startseite (`stil.css`, `seite.js`), Ergänzungen in `projekte/projekt.css`.
 
 ## Customer Health Dashboard (/customerhealth, nicht indexiert)
 
-Erklärseite: `projekte/customer-health.html` unter https://noelgruber.de/projekte/customer-health.
+Kurzseite zum Verschicken: `projekte/customer-health.html` (https://noelgruber.de/projekte/customer-health), ausführliche Version: `projekte/customer-health/details.html` (/projekte/customer-health/details).
 Bewusst nur per Link erreichbar: `noindex` (Meta-Tag und Header), nicht in der Sitemap und keine
 Karte auf der Startseite. Gedacht zum Verschicken an Wemolo. Screenshots in
 `bilder/projekte/customer-health/` (nur hell, das Dashboard hat keine dunkle Ansicht).
