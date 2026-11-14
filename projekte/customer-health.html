@@ -11,7 +11,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://noelgruber.de/projekte/customer-health">
 <meta property="og:title" content="Customer Health Dashboard · Noel Gruber">
-<meta property="og:description" content="Wer von 20 Parkflächen-Kunden braucht heute Aufmerksamkeit, warum, und was ist der nächste Schritt? Ein Prototyp für meine Bewerbung bei Wemolo.">
+<meta property="og:description" content="Ein kleiner Prototyp, den ich für meine Bewerbung bei Wemolo gebaut habe. Er zeigt, welche Parkflächen-Kunden gerade Aufmerksamkeit brauchen und warum.">
 <meta property="og:image" content="https://noelgruber.de/bilder/projekte/customer-health/uebersicht-2.jpg">
 <meta property="og:image:width" content="1600">
 <meta property="og:image:height" content="1000">
@@ -48,7 +48,7 @@
 <header class="wrap pkopf">
   <p class="mono"><a class="zurueck" href="/#projekte">← Projekte</a> · Bewerbungsprojekt für Wemolo</p>
   <h1>Customer <span class="ser">Health</span>.</h1>
-  <p class="sub">Wer von 20 Parkflächen-Kunden braucht heute Aufmerksamkeit, warum, und was ist der nächste Schritt? Dieses Dashboard beantwortet das auf einen Blick. Gebaut für meine Bewerbung als Customer Success Manager im Paid-Parking-Team bei Wemolo.</p>
+  <p class="sub">Für meine Bewerbung als Customer Success Manager im Paid-Parking-Team bei Wemolo habe ich mir überlegt, wie man bei vielen Parkflächen-Kunden früh sieht, wer gerade Aufmerksamkeit braucht und warum. Daraus ist dieser kleine Prototyp entstanden.</p>
   <div class="cta">
     <a class="btn" href="/customerhealth" target="_blank" rel="noopener">Dashboard öffnen ↗</a>
     <a class="btn btn--g" href="#ablauf">Wie es funktioniert</a>
@@ -67,7 +67,7 @@
     <div><b>20</b><span>erfundene Parkflächen-Kunden: Supermärkte, Kliniken, Hotels, Fitnessstudios, Shopping-Center</span></div>
     <div><b>6</b><span>einfache Regeln für den Health Score, jede mit einem Satz als Begründung</span></div>
     <div><b>13</b><span>Punkte auf der Onboarding-Checkliste, vom Vertrag bis zum Review nach 30 Tagen</span></div>
-    <div><b>42</b><span>automatische Tests, auch für die Texte: Anrede, Länge, keine Floskeln</span></div>
+    <div><b>42</b><span>automatische Tests, auch für die Texte, zum Beispiel ob die Anrede stimmt</span></div>
   </div>
 </div>
 
@@ -75,9 +75,9 @@
 <section><div class="wrap">
   <div class="hd">
     <p class="mono">Die Ausgangslage</p>
-    <h2>Probleme zeigen sich in den Zahlen, lange bevor der Kunde anruft.</h2>
-    <p>Bei Parkflächen ohne Schranke merkt der Kunde ein Problem oft als Letzter. Verdeckt ein Bauzaun den Automaten, sinkt zuerst die Zahlungsquote, dann bekommen seine Besucher Zahlungserinnerungen, und irgendwann klingelt das Telefon. Im Onboarding hängen dazu viele Schritte an Dritten: Vermieter, Stromanschluss, Betriebsrat.</p>
-    <p>In euren Stellenanzeigen ging es um Customer Health, Kundensegmentierung, Readiness-Tracking und Onboarding-Qualität. Genau diese vier Themen greift das Dashboard auf.</p>
+    <h2>Viele Probleme sieht man zuerst in den Zahlen.</h2>
+    <p>Ich stelle mir vor, dass sich bei Parkflächen ohne Schranke viele Probleme zuerst in den Zahlen zeigen. Wenn zum Beispiel ein Bauzaun den Automaten verdeckt, sinkt die Zahlungsquote, lange bevor sich der Kunde meldet. Und im Onboarding hängt einiges an anderen, etwa am Vermieter oder am Stromanschluss.</p>
+    <p>In euren Stellenanzeigen ging es unter anderem um Customer Health, Readiness und Onboarding. Einige dieser Themen habe ich im Dashboard aufgegriffen.</p>
   </div>
 </div></section>
 
@@ -100,9 +100,9 @@
   <div class="kasten"><div class="stoerung">
     <div>
       <p class="mono">Der Health Score</p>
-      <h2>Keine Blackbox, sondern <span class="ser">nachrechenbar.</span></h2>
+      <h2>Ein Score, den man <span class="ser">nachrechnen kann.</span></h2>
       <p>Jeder Kunde startet mit 100 Punkten. Jede Regel, die anschlägt, zieht Punkte ab und schreibt einen Satz dazu, zum Beispiel „Zahlungsquote seit 4 Wochen gesunken (von 92 % auf 73 %)“. Ab 85 Punkten ist ein Kunde grün, unter 50 rot.</p>
-      <p>Ein einzelnes kleines Signal löst keinen Alarm aus. Rot wird es erst, wenn mehrere Dinge gleichzeitig schieflaufen. Beim Testen fiel auf, dass ein starkes Warnsignal mit meiner ersten Grenze von 80 noch grün gewesen wäre. Also habe ich nachgeschärft.</p>
+      <p>Ein einzelnes kleines Signal löst noch keinen Alarm aus, rot wird ein Kunde erst, wenn mehrere Dinge gleichzeitig schieflaufen. Beim Testen fiel auf, dass ein starkes Warnsignal mit der ersten Grenze von 80 noch grün gewesen wäre, deshalb liegt sie jetzt bei 85.</p>
     </div>
     <table class="regeln">
       <caption class="mono">Regeln und Abzüge</caption>
@@ -124,9 +124,9 @@
   <div class="kasten"><div class="stoerung">
     <div>
       <p class="mono">Bericht und Mail</p>
-      <h2>Vom Befund zur Mail <span class="ser">mit einem Klick.</span></h2>
-      <p>Für die acht gelben und roten Kunden zeigt ein Button einen kurzen Monatsbericht mit Empfehlungen und einen Mail-Entwurf an die Ansprechperson. Die Mails nennen das Problem mit Zahlen, ohne Vorwurf, und machen einen Vorschlag, der dem Kunden Arbeit abnimmt.</p>
-      <p>Die Texte habe ich beim Bauen einmalig mit Claude erzeugt und selbst geprüft. Es gibt also keine API-Kosten und keinen Schlüssel im Projekt. Wie man das live anbinden würde, mit Tageslimit und Rückfall auf die vorab erzeugten Texte, steht im Repository.</p>
+      <h2>Bericht und Mail-Entwurf <span class="ser">auf Knopfdruck.</span></h2>
+      <p>Für die acht gelben und roten Kunden zeigt ein Button einen kurzen Monatsbericht mit Empfehlungen und einen Mail-Entwurf an die Ansprechperson. Die Mails beschreiben das Problem mit konkreten Zahlen und ohne Vorwurf. Außerdem enthalten sie einen Vorschlag, der dem Kunden möglichst wenig Arbeit macht.</p>
+      <p>Die Texte wurden beim Bauen einmalig mit Claude erzeugt und geprüft. Es gibt also keine API-Kosten und keinen Schlüssel im Projekt. Wie man das live anbinden würde, mit Tageslimit und Rückfall auf die vorab erzeugten Texte, steht im Repository.</p>
     </div>
     <div class="shot shot--schmal">
       <img src="/bilder/projekte/customer-health/mail-2.jpg" alt="Empfehlung „Vor-Ort-Check“ und Mail-Entwurf an Claudia Reiter vom Kreisklinikum Ammertal mit konkretem Vorschlag und Terminfrage" width="900" height="1579" loading="lazy">
@@ -152,16 +152,16 @@
 <section style="padding-top:0"><div class="wrap">
   <div class="hd">
     <p class="mono">Dahinter</p>
-    <h2>Entscheidungen, die ich erklären kann.</h2>
-    <p>Jede davon hat Alternativen. Die Begründungen stehen ausführlich im Repository, zusammen mit meinen Lernnotizen zu jeder Phase.</p>
+    <h2>Was ich mir dabei überlegt habe.</h2>
+    <p>Zu jedem Punkt gab es auch andere Möglichkeiten. Ausführlicher steht das im Repository.</p>
   </div>
   <div class="svc">
-    <div><h3>Regeln statt Blackbox</h3><p>Ein Score, den niemand erklären kann, wird im Team nicht genutzt. Sechs gewichtete Regeln kann jede Kollegin nachrechnen und gemeinsam anpassen.</p></div>
+    <div><h3>Regeln statt Blackbox</h3><p>Ich glaube, einen Score, den niemand erklären kann, nutzt im Team am Ende keiner. Sechs gewichtete Regeln kann jede Kollegin nachrechnen und gemeinsam anpassen.</p></div>
     <div><h3>Veränderung vor Momentaufnahme</h3><p>Eine Zahlungsquote, die vier Wochen in Folge fällt, sagt mehr als eine, die stabil bei 86 % liegt. Deshalb vergleicht der Score immer mit den Vorwochen.</p></div>
     <div><h3>Readiness als Checkliste</h3><p>13 Punkte in vier Phasen, für alle Kunden gleich. Sichtbar ist, was in der aktuellen Phase offen ist und ob das geplante Go-live schon überfällig ist.</p></div>
     <div><h3>Größe entscheidet bei Gleichstand</h3><p>Haben zwei Kunden denselben Score, steht der mit mehr Stellplätzen oben, weil dort mehr auf dem Spiel steht.</p></div>
-    <div><h3>Mails mit Vorschlag</h3><p>Kein „melden Sie sich bei Fragen“, sondern ein konkreter Vorschlag mit Termin. Und die Mail geht nie automatisch raus, sie ist immer ein Entwurf.</p></div>
-    <div><h3>Erst Skizzen, dann Code</h3><p>Vier Design-Entwürfe und drei Feedback-Runden, erst danach die echte Oberfläche. Skizzen zu ändern kostet nichts, fertigen Code schon.</p></div>
+    <div><h3>Mails mit Vorschlag</h3><p>Statt „melden Sie sich bei Fragen“ macht jede Mail einen konkreten Vorschlag mit Terminfrage. Und die Mail geht nie automatisch raus, sie ist immer ein Entwurf.</p></div>
+    <div><h3>Erst Skizzen, dann Code</h3><p>Bevor die Oberfläche gebaut wurde, gab es vier Design-Entwürfe und drei Feedback-Runden, weil sich Skizzen viel leichter ändern lassen als fertiger Code.</p></div>
   </div>
 </div></section>
 
@@ -181,7 +181,7 @@
     <div>
       <p class="mono">Wie es entstanden ist</p>
       <h3 class="howh">In sechs Phasen, mit Claude Code</h3>
-      <p>Planung, Beispieldaten, Health Score mit Tests, Design und Oberfläche, Bericht und Mail, Veröffentlichung. Nach jeder Phase habe ich angehalten, aufgeschrieben, was entstanden ist und warum, und erst dann weitergemacht. Wichtig war mir, dass ich jede Entscheidung im Gespräch erklären kann, nicht nur, dass sie läuft.</p>
+      <p>Gebaut habe ich das Dashboard mit Claude Code in sechs Phasen, von der Planung über Beispieldaten und Tests bis zur Oberfläche. Nach jeder Phase habe ich mir zeigen und erklären lassen, was entstanden ist, und erst dann die nächste freigegeben.</p>
       <p>Alle Kunden, Namen und Zahlen sind erfunden. Das Dashboard ist ein Prototyp und nicht mit Wemolo verbunden.</p>
     </div>
   </div>
@@ -191,8 +191,8 @@
 <section class="contact" style="padding-top:0"><div class="wrap">
   <div class="kasten">
     <p class="mono">Selbst ausprobieren</p>
-    <h2>Ein Klick, ein roter Kunde, eine Mail.</h2>
-    <p class="sub">Mein Vorschlag für die ersten zwei Minuten: Dashboard öffnen, das Kreisklinikum Ammertal ansehen und auf „Bericht &amp; Mail-Entwurf“ klicken. Im Gespräch erzähle ich gern, wie ich so ein Werkzeug im Team einführen würde.</p>
+    <h2>Am besten einfach mal reinklicken.</h2>
+    <p class="sub">Wenn du nur zwei Minuten hast, öffne das Kreisklinikum Ammertal und klick auf „Bericht &amp; Mail-Entwurf“. Im Gespräch erzähle ich gern mehr dazu, und mich würde interessieren, wie ihr das Thema heute angeht.</p>
     <div class="cta">
       <a class="btn" href="/customerhealth#/kunde/c07" target="_blank" rel="noopener">Dashboard öffnen ↗</a>
       <a class="btn btn--g" href="mailto:noel.gruber98@gmail.com?subject=Customer%20Health%20Dashboard">Schreib mir</a>
