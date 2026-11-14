@@ -89,12 +89,38 @@
           "value": "no-cache"
         }
       ]
+    },
+    {
+      "source": "/customerhealth",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/customerhealth/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ],
   "rewrites": [
     {
       "source": "/touren/:slug([a-z0-9-]+)",
       "destination": "/api/tour?slug=:slug"
+    },
+    {
+      "source": "/customerhealth",
+      "destination": "https://customer-health-snowy.vercel.app/customerhealth"
+    },
+    {
+      "source": "/customerhealth/:path*",
+      "destination": "https://customer-health-snowy.vercel.app/customerhealth/:path*"
     }
   ],
   "functions": {

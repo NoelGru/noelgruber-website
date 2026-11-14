@@ -125,3 +125,11 @@ Startseite (`stil.css`, `seite.js`), Ergänzungen in `projekte/projekt.css`.
   Repository `NoelGru/lead-data-hub`. Die Screenshots in `bilder/projekte/lead-data-hub/`
   gibt es hell und dunkel; angezeigt wird, was zur gewählten Ansicht passt. Alle Firmen und
   Personen darin sind erfunden (eigene Demo-Datenbank, keine echten Konten sichtbar).
+
+## Customer Health Dashboard (/customerhealth, nicht indexiert)
+
+Bewerbungs-Prototyp, erreichbar unter https://noelgruber.de/customerhealth, aber nicht in der
+Sitemap und mit `X-Robots-Tag: noindex, nofollow`. Die Seite liegt nicht in diesem Repo:
+`vercel.json` leitet `/customerhealth` per Rewrite an das Vercel-Projekt **customer-health**
+weiter (Repository `NoelGru/customer-health`, Adresse `customer-health-snowy.vercel.app`).
+Änderungen am Dashboard also dort pushen, hier ist nichts zu tun.
