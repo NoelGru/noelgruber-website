@@ -2,15 +2,27 @@
    Baut auf stil.css auf: dieselben Farben, Schriften, Rundungen, Knöpfe und Felder.
    Hier steht nur, was es auf der Startseite nicht gibt. */
 
-/* Statusfarben aus der vorhandenen Palette */
+/* Eine eigene Farbe pro Status, damit man die Liste im Vorbeiscrollen lesen kann */
 :root{
-  --s-beworben:var(--glow);
-  --s-bestaetigt:rgba(var(--punkt),.5);
-  --s-interview:var(--hinweis-ink);
-  --s-zusage:var(--ink);
-  --s-absage:var(--dim);
-  --s-still:var(--mut);
+  --st-beworben:#8fa6ff; --st-bestaetigt:#5ccfd6; --st-interview:#f2c46b;
+  --st-zusage:#6fdc9a; --st-absage:#ff8a7a; --st-still:#7b828a;
 }
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --st-beworben:#3a4fc4; --st-bestaetigt:#0f8790; --st-interview:#a36b06;
+    --st-zusage:#1b8a4c; --st-absage:#c2412d; --st-still:#8a929b;
+  }
+}
+:root[data-theme="light"]{
+  --st-beworben:#3a4fc4; --st-bestaetigt:#0f8790; --st-interview:#a36b06;
+  --st-zusage:#1b8a4c; --st-absage:#c2412d; --st-still:#8a929b;
+}
+[data-s="beworben"]{--c:var(--st-beworben)}
+[data-s="bestaetigt"]{--c:var(--st-bestaetigt)}
+[data-s="interview"]{--c:var(--st-interview)}
+[data-s="zusage"]{--c:var(--st-zusage)}
+[data-s="absage"]{--c:var(--st-absage)}
+[data-s="still"]{--c:var(--st-still)}
 
 [hidden]{display:none !important}
 main section{padding-block:0}
@@ -29,62 +41,59 @@ main section{padding-block:0}
 .bw-login__kasten{max-width:520px; margin-inline:auto}
 .bw-login__titel{font-size:clamp(34px,6vw,54px); margin:16px 0 30px; max-width:none}
 
-/* ── Kopf mit Kennzahlen ─────────── */
-.bw-kopf{padding-block:clamp(30px,5vw,64px) clamp(36px,5vw,60px) !important}
+/* ── Kopf ────────────────────────── */
+.bw-kopf{padding-block:clamp(30px,5vw,64px) clamp(36px,5vw,56px) !important}
+.bw-kopfzeile{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:20px 28px}
 .bw-titel{font-size:clamp(34px,6.4vw,76px); max-width:18ch; margin-top:16px; text-wrap:balance}
-.bw-zahlen{
-  display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:clamp(18px,3vw,40px); margin-top:clamp(34px,5vw,56px);
+
+/* Stufen: Beworben → Bestätigt → Interview → Zusage, daneben die abgeschlossenen */
+.bw-pipe{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,.9fr); margin-top:clamp(30px,4vw,44px); align-items:stretch}
+.bw-stufe{
+  all:unset; box-sizing:border-box; cursor:pointer; position:relative; margin-right:20px;
+  padding:18px 18px 16px; background:var(--surf); border:1px solid var(--line); border-top:3px solid var(--c);
+  border-radius:var(--r-s); transition:background .2s, border-color .2s;
 }
-.bw-zahlen > div{border-top:1px solid var(--line2); padding-top:16px}
-.bw-zahlen b{display:block; font-size:clamp(30px,4.4vw,48px); font-weight:700; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums}
-.bw-zahlen span{display:block; margin-top:9px; color:var(--mut); font-size:14.5px}
-
-.bw-verteilung{margin-top:clamp(28px,4vw,42px)}
-.bw-balken{display:flex; gap:3px; height:10px; border-radius:999px; overflow:hidden; background:var(--line)}
-.bw-balken button{border:0; padding:0; min-width:6px; cursor:pointer; transition:opacity .2s}
-.bw-balken button:hover{opacity:.75}
-.bw-legende{display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:16px}
-.bw-legende button{
-  display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:13.5px; color:var(--mut);
-  background:transparent; border:0; padding:4px 0; cursor:pointer;
+.bw-stufe:hover,.bw-stufe[aria-pressed="true"]{
+  background:color-mix(in srgb, var(--c) 10%, var(--surf));
+  border-color:color-mix(in srgb, var(--c) 50%, var(--line)); border-top-color:var(--c);
 }
-.bw-legende button:hover,.bw-legende button[aria-pressed="true"]{color:var(--ink)}
-.bw-legende button[aria-pressed="true"] b{text-decoration:underline; text-underline-offset:3px}
-.bw-legende b{color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums}
-.bw-legende .leer{opacity:.45}
-.bw-punkt{width:9px; height:9px; border-radius:50%; flex:none}
+.bw-stufe:focus-visible{outline:2px solid var(--glow); outline-offset:3px}
+.bw-stufe:not(.bw-stufe--letzte)::after{
+  content:"→"; position:absolute; right:-17px; top:50%; transform:translateY(-50%); color:var(--dim); font-size:14px;
+}
+.bw-stufe b{display:block; font-size:clamp(30px,3.6vw,40px); line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
+.bw-stufe span{display:block; margin-top:9px; font-size:13.5px; font-weight:600; color:var(--c)}
+.bw-stufe small{display:block; margin-top:3px; font-size:12px; color:var(--dim)}
+.bw-ende{display:flex; flex-direction:column; gap:8px; padding-left:16px; border-left:1px dashed var(--line2)}
+.bw-ende p{margin:0; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.bw-ende button{
+  all:unset; box-sizing:border-box; cursor:pointer; flex:1; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:9px 12px; border:1px solid var(--line); border-radius:var(--r-s); transition:border-color .2s;
+}
+.bw-ende button:hover,.bw-ende button[aria-pressed="true"]{border-color:var(--c)}
+.bw-ende button:focus-visible{outline:2px solid var(--glow); outline-offset:3px}
+.bw-ende span{font-size:13px; font-weight:600; color:var(--c)}
+.bw-ende b{font-size:20px; font-variant-numeric:tabular-nums}
+.bw-quote{margin:16px 0 0; font-size:14px; color:var(--mut)}
+.bw-quote b{color:var(--ink); font-weight:600}
 
-/* ── Formular ────────────────────── */
-.bw-neu{padding-block:0 clamp(44px,6vw,80px) !important}
-.bw-form{display:grid; gap:22px}
-.bw-form__kopf{display:flex; align-items:flex-end; gap:16px}
-.bw-form__titel{font-size:clamp(24px,3.2vw,34px); margin-top:12px}
-.bw-link__zeile{display:flex; gap:10px}
-.bw-link__zeile input{flex:1; min-width:0}
-.bw-link .fnote{margin-top:9px}
-.bw-felder{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px}
-.bw-felder .f:nth-child(1),.bw-felder .f:nth-child(2){grid-column:span 2}
-.bw-breit{grid-column:1 / -1}
-.f textarea{min-height:84px}
-.f input[type="date"]{min-height:49px}
-.bw-form__fuss{display:flex; flex-wrap:wrap; align-items:center; gap:12px 14px}
-.bw-form__fuss .fnote{flex:1 1 220px}
-.btn.bw-klein{padding:11px 20px; font-size:14.5px; white-space:nowrap}
-.bw-form.liest #auslesen{opacity:.55; cursor:progress}
-@keyframes bw-blitz{from{border-color:var(--glow); box-shadow:0 0 0 3px rgba(var(--punkt),.18)}}
-.bw-blitz{animation:bw-blitz 1.4s ease-out}
-
-/* ── Werkzeugleiste ──────────────── */
+/* ── Reiter und Werkzeuge ────────── */
 .bw-liste{padding-block:0 clamp(60px,8vw,110px) !important}
-.bw-werkzeuge{display:flex; flex-wrap:wrap; align-items:center; gap:10px}
-.bw-chips{display:flex; gap:6px; margin-right:auto}
-.bw-chip{
-  font:inherit; font-size:14px; font-weight:600; padding:9px 18px; border-radius:999px; cursor:pointer;
-  background:transparent; color:var(--mut); border:1px solid var(--line2); transition:color .2s, border-color .2s, background .2s;
+.bw-reiter{display:flex; border-bottom:1px solid var(--line2); overflow-x:auto; scrollbar-width:none}
+.bw-reiter button{
+  all:unset; cursor:pointer; padding:12px 16px; margin-bottom:-1px; white-space:nowrap;
+  font-size:14.5px; font-weight:600; color:var(--mut); border-bottom:2px solid transparent;
 }
-.bw-chip:hover{color:var(--ink); border-color:var(--mut)}
-.bw-chip[aria-pressed="true"]{background:var(--ink); color:var(--btn-ink); border-color:var(--ink)}
+.bw-reiter button:hover{color:var(--ink)}
+.bw-reiter button[aria-pressed="true"]{color:var(--ink); border-color:var(--ink)}
+.bw-reiter button:focus-visible{outline:2px solid var(--glow); outline-offset:-2px}
+.bw-reiter b{font-weight:600; color:var(--dim); margin-left:6px; font-variant-numeric:tabular-nums}
+.bw-werkzeuge{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:16px}
+.bw-werkzeuge__rechts{display:flex; gap:8px; margin-left:auto}
+.bw-filterchip{
+  font:inherit; font-size:13.5px; font-weight:600; padding:8px 14px; border-radius:999px; cursor:pointer;
+  color:var(--c); background:color-mix(in srgb, var(--c) 14%, transparent); border:1px solid color-mix(in srgb, var(--c) 40%, transparent);
+}
 .bw-suche,.bw-select{
   font:inherit; font-size:14.5px; color:var(--ink); background:var(--feld);
   border:1px solid var(--line2); border-radius:999px; padding:10px 16px; min-width:0;
@@ -97,96 +106,136 @@ main section{padding-block:0}
   background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);
   background-position:calc(100% - 19px) 52%, calc(100% - 14px) 52%; background-size:5px 5px; background-repeat:no-repeat;
 }
-.bw-auswahl{margin:16px 0 0}
+.btn.bw-klein{padding:11px 20px; font-size:14.5px; white-space:nowrap}
+.bw-auswahl{margin:12px 0 14px}
 
-/* ── Liste ───────────────────────── */
-.bw-monat{
+/* ── Tabelle ─────────────────────── */
+.bw-tabelle{border:1px solid var(--line); border-radius:var(--r-m); overflow:hidden; background:var(--bg)}
+.bw-zeile{
+  display:grid; grid-template-columns:190px minmax(0,1fr) minmax(0,1.3fr) 100px 172px;
+  gap:6px 18px; align-items:center; padding:11px 14px 11px 12px; border-top:1px solid var(--line);
+}
+.bw-zeile:first-child{border-top:0}
+.bw-zeile--hervor{background:color-mix(in srgb, var(--c) 8%, transparent)}
+.bw-zeile--bearbeitet{box-shadow:inset 3px 0 0 var(--glow)}
+.bw-spaltenkopf{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); background:var(--surf); padding-block:9px}
+.bw-monatszeile{
   display:flex; justify-content:space-between; align-items:baseline; gap:12px;
-  margin:clamp(34px,4vw,48px) 0 12px; padding-bottom:10px; border-bottom:1px solid var(--line2);
+  padding:16px 14px 8px; border-top:1px solid var(--line2); background:var(--surf);
 }
-.bw-monat h3{font-size:19px; letter-spacing:-.03em}
-.bw-monat span{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
-.bw-reihen{display:flex; flex-direction:column; gap:8px}
-.bw-reihen--flach{margin-top:clamp(24px,3vw,34px)}
+.bw-monatszeile h3{font-size:16px; letter-spacing:-.02em}
+.bw-monatszeile span{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.bw-tabelle > .bw-monatszeile:first-child{border-top:0}
 
-.bw-eintrag{
-  display:grid; grid-template-columns:minmax(0,1fr) 112px 206px 176px; gap:10px 20px; align-items:center;
-  padding:14px 16px 14px 18px; border:1px solid var(--line); border-radius:var(--r-m); background:var(--surf);
-  transition:border-color .25s;
+/* Status als farbiger Punkt plus Text, direkt änderbar */
+.bw-status{
+  width:100%; font:inherit; font-size:13.5px; font-weight:700; color:var(--c); cursor:pointer;
+  appearance:none; -webkit-appearance:none; border:1px solid transparent; border-radius:999px;
+  padding:7px 26px 7px 30px; background-color:transparent; transition:border-color .2s, background-color .2s;
+  background-image:
+    radial-gradient(circle at 15px 50%, var(--c) 4.5px, color-mix(in srgb, var(--c) 25%, transparent) 5px, color-mix(in srgb, var(--c) 25%, transparent) 8.5px, transparent 9px),
+    linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);
+  background-position:0 0, calc(100% - 15px) 54%, calc(100% - 11px) 54%;
+  background-size:auto, 4px 4px, 4px 4px; background-repeat:no-repeat;
 }
-.bw-eintrag:hover{border-color:var(--pj-hover)}
-.bw-eintrag.bearbeitet{border-color:var(--glow)}
-.bw-firma{font-weight:600; font-size:16.5px; letter-spacing:-.02em; line-height:1.3; overflow-wrap:anywhere}
+.bw-status:hover{border-color:color-mix(in srgb, var(--c) 40%, transparent); background-color:color-mix(in srgb, var(--c) 8%, transparent)}
+.bw-status:focus{border-color:var(--c); outline:none}
+.bw-status option{color:var(--ink); background:var(--bg)}
+
+.bw-firma{font-weight:600; font-size:15px; letter-spacing:-.02em; line-height:1.3; overflow-wrap:anywhere}
 .bw-firma a{text-decoration:none; border-bottom:1px solid var(--line2); transition:border-color .2s}
 .bw-firma a:hover{border-color:var(--glow)}
 .bw-firma a span{color:var(--dim); font-weight:400; margin-left:3px}
-.bw-position{color:var(--mut); font-size:14.5px; line-height:1.45; margin-top:2px; overflow-wrap:anywhere}
-.bw-extra{display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:7px; font-size:13px; color:var(--dim)}
-.bw-extra a{color:var(--mut); text-decoration:none; border-bottom:1px solid var(--line2)}
-.bw-extra a:hover{color:var(--ink); border-color:var(--glow)}
-.bw-notiz{white-space:pre-line; color:var(--mut); flex-basis:100%; max-width:70ch}
-.bw-datum{font-size:14px; font-variant-numeric:tabular-nums; line-height:1.35}
-.bw-datum small{display:block; font-size:12.5px; color:var(--dim)}
+.bw-canva{display:inline-block; margin-top:3px; font-size:12.5px; color:var(--mut); text-decoration:none; border-bottom:1px solid var(--line2)}
+.bw-canva:hover{color:var(--ink); border-color:var(--glow)}
+.bw-position{color:var(--mut); font-size:14.3px; line-height:1.4; overflow-wrap:anywhere}
+.bw-notiz{display:block; margin-top:2px; font-size:12.8px; color:var(--dim); white-space:pre-line}
+.bw-datum{font-size:13.5px; font-variant-numeric:tabular-nums; line-height:1.35}
+.bw-datum small{display:block; font-size:12.3px; color:var(--dim)}
 
-.bw-status{
-  width:100%; font:inherit; font-size:14px; font-weight:600; color:var(--ink); cursor:pointer;
-  background:var(--feld); border:1px solid var(--line2); border-radius:999px; padding:9px 34px 9px 30px;
-  appearance:none; -webkit-appearance:none;
-  background-image:
-    radial-gradient(circle at 15px 50%, var(--farbe) 4.5px, transparent 5px),
-    linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);
-  background-position:0 0, calc(100% - 18px) 52%, calc(100% - 13px) 52%;
-  background-size:auto, 5px 5px, 5px 5px; background-repeat:no-repeat;
-}
-.bw-status:focus{border-color:var(--glow); outline:none}
-
-.bw-aktionen{display:flex; gap:4px; justify-content:flex-end}
+.bw-aktionen{display:flex; gap:2px; justify-content:flex-end}
 .bw-knopf{
-  font:inherit; font-size:13.5px; color:var(--mut); background:transparent; cursor:pointer;
-  border:1px solid transparent; border-radius:999px; padding:8px 12px; white-space:nowrap; transition:color .2s, border-color .2s;
+  font:inherit; font-size:13px; color:var(--mut); background:transparent; cursor:pointer;
+  border:1px solid transparent; border-radius:999px; padding:7px 11px; white-space:nowrap; transition:color .2s, border-color .2s;
 }
 .bw-knopf:hover{color:var(--ink); border-color:var(--line2)}
 .bw-knopf--weg{color:var(--err)}
 .bw-knopf--weg:hover{color:var(--err); border-color:var(--err)}
-.bw-frage{font-size:13.5px; color:var(--ink); font-weight:600; align-self:center; margin-right:2px; white-space:nowrap}
+.bw-frage{font-size:13px; color:var(--ink); font-weight:600; align-self:center; margin-right:2px; white-space:nowrap}
 
-.bw-leer{padding:60px 0; text-align:center; color:var(--mut)}
+.bw-leer{padding:56px 20px; text-align:center; color:var(--mut)}
 .bw-leer b{display:block; color:var(--ink); font-size:20px; letter-spacing:-.03em; margin-bottom:6px}
+
+/* ── Seitenfenster ───────────────── */
+.bw-overlay{position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.5)}
+.bw-fenster{
+  position:fixed; top:0; right:0; bottom:0; z-index:61; width:min(480px,100%); overflow:auto; overscroll-behavior:contain;
+  background:linear-gradient(180deg,var(--k1),var(--k2)); border-left:1px solid var(--k-rand); box-shadow:var(--k-schatten);
+  padding:24px clamp(20px,3vw,30px) calc(24px + env(safe-area-inset-bottom));
+}
+.bw-form{display:flex; flex-direction:column; gap:18px; min-height:100%}
+.bw-fenster__kopf{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+.bw-form__titel{font-size:clamp(24px,3vw,30px); margin-top:10px; overflow-wrap:anywhere}
+.bw-fenster .f label{margin-bottom:7px}
+.bw-link__zeile{display:flex; gap:8px}
+.bw-link__zeile input{flex:1; min-width:0}
+.bw-linknote{margin-top:8px !important}
+.bw-mehr{border-top:1px solid var(--line2); padding-top:14px}
+.bw-mehr summary{cursor:pointer; color:var(--mut); font-size:14.5px; list-style:none; display:flex; align-items:center; gap:8px}
+.bw-mehr summary::-webkit-details-marker{display:none}
+.bw-mehr summary::before{content:"+"; display:inline-grid; place-items:center; width:20px; height:20px; border-radius:50%; border:1px solid var(--line2); font-size:13px}
+.bw-mehr[open] summary::before{content:"–"}
+.bw-mehr summary:hover{color:var(--ink)}
+.bw-mehr__felder{display:grid; gap:16px; margin-top:16px}
+.bw-zwei{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.f textarea{min-height:84px}
+.f input[type="date"]{min-height:49px}
+.bw-fenster__fuss{margin-top:auto; padding-top:8px; display:grid; gap:10px}
+.bw-fenster__fuss .btn{justify-content:center}
+.bw-form.liest #auslesen{opacity:.55; cursor:progress}
+@keyframes bw-blitz{from{border-color:var(--glow); box-shadow:0 0 0 3px rgba(var(--punkt),.18)}}
+.bw-blitz{animation:bw-blitz 1.4s ease-out}
+body.bw-gesperrt{overflow:hidden}
 
 .bw-meldung{
   position:fixed; left:50%; bottom:max(20px, env(safe-area-inset-bottom)); transform:translateX(-50%);
   background:var(--ink); color:var(--btn-ink); font-size:14.5px; font-weight:600;
-  padding:12px 20px; border-radius:999px; z-index:50; box-shadow:var(--k-schatten);
+  padding:12px 20px; border-radius:999px; z-index:70; box-shadow:var(--k-schatten);
 }
 
-/* ── Schmale Bildschirme ─────────── */
-@media (max-width:900px){
-  .bw-eintrag{grid-template-columns:minmax(0,1fr) 206px; grid-template-areas:"titel status" "datum aktionen"}
-  .bw-eintrag > :nth-child(1){grid-area:titel}
-  .bw-eintrag > :nth-child(2){grid-area:datum}
-  .bw-eintrag > :nth-child(3){grid-area:status}
-  .bw-eintrag > :nth-child(4){grid-area:aktionen}
-  .bw-datum small{display:inline; margin-left:8px}
+/* ── Schmalere Bildschirme ───────── */
+@media (max-width:1000px){
+  .bw-zeile{grid-template-columns:170px minmax(0,1fr) 100px 172px}
+  .bw-zeile > :nth-child(3){grid-column:2; grid-row:2}
+  .bw-spaltenkopf > :nth-child(3){display:none}
 }
-.bw-hand{display:none}
+@media (max-width:820px){
+  .bw-pipe{grid-template-columns:1fr 1fr; gap:10px}
+  .bw-stufe{margin-right:0}
+  .bw-stufe::after{display:none}
+  .bw-ende{grid-column:1 / -1; flex-direction:row; padding-left:0; border-left:0}
+  .bw-ende p{display:none}
+}
 @media (max-width:720px){
-  /* Auf dem Handy bleibt das Formular zu, bis ein Link drin ist oder man von Hand einträgt */
-  .bw-form:not(.offen) .bw-felder,.bw-form:not(.offen) .bw-form__fuss{display:none}
-  .bw-form:not(.offen) .bw-hand{display:inline; font:inherit; font-size:13px; color:var(--mut); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
-  .bw-zahlen{grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:24px}
-  .bw-felder{grid-template-columns:1fr 1fr}
-  .bw-felder .f:nth-child(1),.bw-felder .f:nth-child(2){grid-column:1 / -1}
-  .bw-werkzeuge{display:grid; grid-template-columns:1fr 1fr}
-  .bw-chips{grid-column:1 / -1; margin:0}
-  .bw-chip{flex:1}
+  .bw-werkzeuge__rechts{display:grid; grid-template-columns:1fr 1fr; width:100%; margin-left:0}
   .bw-suche{width:auto; grid-column:1 / -1}
   .bw-werkzeuge .btn{justify-content:center}
+  .bw-spaltenkopf{display:none !important}
+  .bw-zeile{grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"s d" "t t" "p p" "a a"; gap:4px 12px; padding:12px 14px}
+  .bw-zeile > :nth-child(1){grid-area:s; justify-self:start}
+  .bw-zeile > :nth-child(2){grid-area:t; margin-top:4px}
+  .bw-zeile > :nth-child(3){grid-area:p; grid-column:auto; grid-row:auto}
+  .bw-zeile > :nth-child(4){grid-area:d; text-align:right}
+  .bw-zeile > :nth-child(5){grid-area:a; justify-content:flex-start; margin:2px 0 0 -11px}
+  .bw-status{width:auto; margin-left:-8px}
 }
 @media (max-width:560px){
-  .bw-eintrag{grid-template-columns:1fr; grid-template-areas:"titel" "datum" "status" "aktionen"; padding:16px}
-  .bw-aktionen{justify-content:flex-start; margin-left:-12px}
-  .bw-link__zeile{flex-direction:column}
-  .bw-link__zeile .btn{justify-content:center}
-  .bw-felder{grid-template-columns:1fr}
-  .bw-form__fuss .btn{flex:1; justify-content:center}
+  .bw-reiter{justify-content:space-between}
+  .bw-reiter button{padding:11px 6px; font-size:13px}
+  .bw-reiter b{margin-left:4px}
+  .bw-kopfzeile .btn,#neu{width:100%; justify-content:center}
+  .bw-stufe{padding:14px 14px 12px}
+  .bw-fenster{top:auto; max-height:92dvh; width:100%; border-left:0; border-top:1px solid var(--k-rand); border-radius:22px 22px 0 0}
+  .bw-form{min-height:0}
+  .bw-zwei{grid-template-columns:1fr}
 }

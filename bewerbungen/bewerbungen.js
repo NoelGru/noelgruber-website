@@ -17,10 +17,16 @@ const STATUS = {
   still:      { label: 'Keine Rückmeldung', offen: false },
 };
 const KEYS = Object.keys(STATUS);
-const farbe = k => `var(--s-${k})`;
+const STUFEN = ['beworben', 'bestaetigt', 'interview', 'zusage'];
+const REITER = [
+  ['laufend', 'Laufend', i => STATUS[i.status]?.offen],
+  ['gespraeche', 'Interviews', i => i.status === 'interview' || i.status === 'zusage'],
+  ['zu', 'Abgeschlossen', i => !STATUS[i.status]?.offen],
+  ['alle', 'Alle', () => true],
+];
 const MONATE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 
-const state = { sb: null, user: null, items: [], filter: 'alle', q: '', sort: 'neu', editId: null, frageId: null };
+const state = { sb: null, user: null, items: [], reiter: 'laufend', status: null, q: '', sort: 'neu', editId: null, frageId: null };
 
 /* ---------- Hilfen ---------- */
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -60,7 +66,8 @@ async function setUser(u) {
   state.user = u;
   if (!u) {
     state.items = []; state.editId = null; state.frageId = null;
-    $('#liste').innerHTML = ''; $('#zahlen').innerHTML = ''; $('#balken').innerHTML = ''; $('#legende').innerHTML = '';
+    fensterZu();
+    ['#liste', '#pipe', '#quote', '#reiter', '#filterchip', '#auswahl'].forEach(s => { $(s).innerHTML = ''; });
     zeige('login');
     return;
   }
@@ -99,9 +106,30 @@ async function loeschen(id) {
 const f = {
   form: $('#eintrag-form'), url: $('#f-url'), firma: $('#f-firma'), position: $('#f-position'),
   datum: $('#f-datum'), status: $('#f-status'), canva: $('#f-canva'), notiz: $('#f-notiz'),
-  linkNote: $('#link-note'), note: $('#form-note'), speichern: $('#speichern'), abbrechen: $('#abbrechen'),
+  linkNote: $('#link-note'), note: $('#form-note'), speichern: $('#speichern'), mehr: $('#mehr'),
   titel: $('#form-titel'), mono: $('#form-mono'), auslesen: $('#auslesen'),
 };
+const fenster = $('#fenster'), overlay = $('#overlay');
+let vorherFokus = null;
+
+function fensterAuf(fokus) {
+  vorherFokus = document.activeElement;
+  fenster.hidden = false; overlay.hidden = false;
+  document.body.classList.add('bw-gesperrt');
+  fenster.scrollTop = 0;
+  (fokus || f.url).focus();
+}
+function fensterZu() {
+  if (fenster.hidden) return;
+  fenster.hidden = true; overlay.hidden = true;
+  document.body.classList.remove('bw-gesperrt');
+  formLeeren(); renderListe();
+  if (vorherFokus && document.contains(vorherFokus)) vorherFokus.focus();
+}
+$('#neu').addEventListener('click', () => { formLeeren(); fensterAuf(); });
+$('#schliessen').addEventListener('click', fensterZu);
+overlay.addEventListener('click', fensterZu);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !fenster.hidden) fensterZu(); });
 f.status.innerHTML = KEYS.map(k => `<option value="${k}">${STATUS[k].label}</option>`).join('');
 const LINK_STANDARD = f.linkNote.textContent;
 let zuletztGelesen = '', lesenTimer;
@@ -152,11 +180,7 @@ async function auslesen(erzwingen) {
   }
   f.form.classList.remove('liest'); f.auslesen.disabled = false; f.auslesen.textContent = 'Auslesen';
 }
-f.url.addEventListener('input', () => {
-  if (text(f.url.value)) f.form.classList.add('offen');
-  clearTimeout(lesenTimer); lesenTimer = setTimeout(() => auslesen(false), 450);
-});
-$('#von-hand').addEventListener('click', () => { f.form.classList.add('offen'); f.firma.focus(); });
+f.url.addEventListener('input', () => { clearTimeout(lesenTimer); lesenTimer = setTimeout(() => auslesen(false), 450); });
 f.auslesen.addEventListener('click', () => { clearTimeout(lesenTimer); auslesen(true); });
 
 /* ---------- Formular ---------- */
@@ -166,8 +190,7 @@ function formLeeren() {
   f.status.value = 'beworben';
   zuletztGelesen = ''; state.editId = null;
   f.titel.textContent = 'Bewerbung eintragen'; f.mono.textContent = 'Neu';
-  f.speichern.textContent = 'Eintragen'; f.abbrechen.hidden = true;
-  f.form.classList.remove('offen');
+  f.speichern.textContent = 'Eintragen'; f.mehr.open = false;
   hinweis(f.linkNote, LINK_STANDARD); hinweis(f.note, '');
 }
 
@@ -178,12 +201,10 @@ function formFuellen(i) {
   f.datum.value = i.beworben_am || heute(); f.status.value = STATUS[i.status] ? i.status : 'beworben';
   f.canva.value = i.canva_url || ''; f.notiz.value = i.notiz || '';
   f.titel.textContent = i.firma || 'Bewerbung'; f.mono.textContent = 'Bearbeiten';
-  f.speichern.textContent = 'Änderungen speichern'; f.abbrechen.hidden = false;
-  f.form.classList.add('offen');
+  f.speichern.textContent = 'Änderungen speichern'; f.mehr.open = true;
   hinweis(f.linkNote, LINK_STANDARD); hinweis(f.note, '');
   renderListe();
-  f.form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  setTimeout(() => f.firma.focus({ preventScroll: true }), 350);
+  fensterAuf(f.firma);
 }
 
 f.form.addEventListener('submit', async e => {
@@ -200,29 +221,28 @@ f.form.addEventListener('submit', async e => {
     notiz: text(f.notiz.value) || null,
   };
   if (!werte.firma && !werte.position) {
-    hinweis(f.note, 'Bitte Firma oder Position eintragen, oder oben den Link einfügen.', 'err');
+    hinweis(f.note, 'Bitte Firma oder Position eintragen oder oben den Link einfügen.', 'err');
     f.firma.focus(); return;
   }
-  if (canva && !werte.canva_url) { hinweis(f.note, 'Der Canva-Link sieht nicht vollständig aus.', 'err'); f.canva.focus(); return; }
+  if (canva && !werte.canva_url) { f.mehr.open = true; hinweis(f.note, 'Der Canva-Link sieht nicht vollständig aus.', 'err'); f.canva.focus(); return; }
   f.speichern.disabled = true;
   const warEdit = !!state.editId;
   try {
     await speichern(werte, state.editId);
-    formLeeren(); render();
+    fensterZu(); render();
     melden(warEdit ? 'Änderungen gespeichert.' : 'Eingetragen.');
   } catch {
     hinweis(f.note, 'Speichern hat nicht geklappt. Bist du noch angemeldet?', 'err');
   }
   f.speichern.disabled = false;
 });
-f.abbrechen.addEventListener('click', () => { formLeeren(); renderListe(); });
 
 /* ---------- Auswahl ---------- */
 function sichtbar() {
   const q = state.q.toLowerCase();
+  const imReiter = REITER.find(r => r[0] === state.reiter)[2];
   const items = state.items.filter(i => {
-    if (state.filter === 'offen' && !offen(i)) return false;
-    if (STATUS[state.filter] && i.status !== state.filter) return false;
+    if (state.status ? i.status !== state.status : !imReiter(i)) return false;
     return !q || `${i.firma || ''} ${i.position || ''} ${i.notiz || ''}`.toLowerCase().includes(q);
   });
   const nachDatum = (a, b) => (a.beworben_am || '').localeCompare(b.beworben_am || '') || (a.created_at || '').localeCompare(b.created_at || '');
@@ -234,7 +254,7 @@ function sichtbar() {
 }
 
 /* ---------- Rendern ---------- */
-function render() { renderKopf(); renderChips(); renderListe(); }
+function render() { renderKopf(); renderReiter(); renderListe(); }
 
 function renderKopf() {
   const items = state.items, n = items.length;
@@ -242,90 +262,95 @@ function renderKopf() {
   const gespraeche = items.filter(i => i.status === 'interview' || i.status === 'zusage').length;
   const antworten = items.filter(i => ['bestaetigt', 'interview', 'zusage', 'absage'].includes(i.status)).length;
   const quote = n ? Math.round(antworten / n * 100) : 0;
+  const c = Object.fromEntries(KEYS.map(k => [k, items.filter(i => i.status === k).length]));
+  const anteil = k => (n ? Math.round(c[k] / n * 100) : 0);
 
   $('#titel').innerHTML = n
     ? `${esc(plural(n, 'Bewerbung', 'Bewerbungen'))}, <span class="ser">${laufend} laufend</span>.`
     : 'Noch keine <span class="ser">Bewerbungen</span>.';
 
-  $('#zahlen').innerHTML = [
-    [n, 'erfasst'], [laufend, 'laufend'], [gespraeche, plural(gespraeche, 'Gespräch', 'Gespräche').replace(/^\d+ /, '')], [`${quote} %`, 'Rückmeldequote'],
-  ].map(([z, l]) => `<div><b>${z}</b><span>${l}</span></div>`).join('');
-
-  const c = Object.fromEntries(KEYS.map(k => [k, items.filter(i => i.status === k).length]));
-  $('#verteilung').hidden = !n;
-  $('#balken').innerHTML = KEYS.filter(k => c[k]).map(k =>
-    `<button type="button" data-filter="${k}" style="flex:${c[k]};background:${farbe(k)}" title="${STATUS[k].label}: ${c[k]}" aria-label="Nur ${STATUS[k].label} zeigen (${c[k]})"></button>`).join('');
-  $('#legende').innerHTML = KEYS.map(k =>
-    `<button type="button" data-filter="${k}" aria-pressed="${state.filter === k}"${c[k] ? '' : ' class="leer"'}><i class="bw-punkt" style="background:${farbe(k)}"></i>${STATUS[k].label} <b>${c[k]}</b></button>`).join('');
+  const stufen = STUFEN.map((k, i) =>
+    `<button type="button" class="bw-stufe${i === STUFEN.length - 1 ? ' bw-stufe--letzte' : ''}" data-s="${k}" data-status="${k}" aria-pressed="${state.status === k}">
+      <b>${c[k]}</b><span>${STATUS[k].label}</span><small>${k === 'beworben' ? 'warten auf Antwort' : `${anteil(k)} % aller Bewerbungen`}</small></button>`).join('');
+  const ende = `<div class="bw-ende"><p>Abgeschlossen</p>${['absage', 'still'].map(k =>
+    `<button type="button" data-s="${k}" data-status="${k}" aria-pressed="${state.status === k}"><span>${STATUS[k].label}</span><b>${c[k]}</b></button>`).join('')}</div>`;
+  $('#pipe').innerHTML = stufen + ende;
+  $('#quote').innerHTML = n ? `Rückmeldequote <b>${quote} %</b> · ${plural(gespraeche, 'Gespräch', 'Gespräche')}` : '';
 }
 
-function renderChips() {
-  $('#chips').innerHTML = [['alle', 'Alle'], ['offen', 'Laufend']].map(([k, l]) =>
-    `<button type="button" class="bw-chip" data-filter="${k}" aria-pressed="${state.filter === k}">${l}</button>`).join('');
-  legendeMarkieren();
-}
-function legendeMarkieren() {
-  document.querySelectorAll('#legende [data-filter]').forEach(b => b.setAttribute('aria-pressed', String(state.filter === b.dataset.filter)));
+function renderReiter() {
+  $('#reiter').innerHTML = REITER.map(([k, l, fn]) =>
+    `<button type="button" data-reiter="${k}" aria-pressed="${!state.status && state.reiter === k}">${l}<b>${state.items.filter(fn).length}</b></button>`).join('');
+  $('#filterchip').innerHTML = state.status
+    ? `<button type="button" class="bw-filterchip" data-s="${state.status}" data-status="${state.status}" aria-label="Filter ${STATUS[state.status].label} aufheben">Nur ${STATUS[state.status].label} ✕</button>`
+    : '';
+  document.querySelectorAll('#pipe [data-status]').forEach(b => b.setAttribute('aria-pressed', String(state.status === b.dataset.status)));
 }
 
 function renderListe() {
   const items = sichtbar(), liste = $('#liste');
-  const gefiltert = state.filter !== 'alle' || state.q;
-  const filterName = state.filter === 'offen' ? 'laufend' : STATUS[state.filter] ? `„${STATUS[state.filter].label}“` : '';
   $('#auswahl').textContent = state.items.length
-    ? (gefiltert ? `${items.length} von ${state.items.length} angezeigt${filterName ? ', Filter: ' + filterName : ''}${state.q ? `, Suche: „${state.q}“` : ''}` : `${plural(items.length, 'Eintrag', 'Einträge')}`) + ' · Der Export enthält genau diese Auswahl.'
+    ? `${plural(items.length, 'Eintrag', 'Einträge')}${state.q ? ` für „${state.q}“` : ''} · Der Export enthält genau diese Auswahl.`
     : '';
 
   if (!items.length) {
     liste.innerHTML = state.items.length
       ? '<div class="bw-leer"><b>Keine Treffer</b>Für diese Auswahl gibt es keine Einträge.</div>'
-      : '<div class="bw-leer"><b>Noch nichts erfasst</b>Oben den Link einer Anzeige einfügen, der Rest kommt von allein.</div>';
+      : '<div class="bw-leer"><b>Noch nichts erfasst</b>Über „Neue Bewerbung“ den Link einer Anzeige einfügen, der Rest kommt von allein.</div>';
     return;
   }
-  if (state.sort === 'firma') { liste.innerHTML = `<div class="bw-reihen bw-reihen--flach">${items.map(reihe).join('')}</div>`; return; }
+  const kopf = '<div class="bw-zeile bw-spaltenkopf" aria-hidden="true"><div>Status</div><div>Firma</div><div>Position</div><div>Datum</div><div></div></div>';
+  if (state.sort === 'firma') { liste.innerHTML = kopf + items.map(zeile).join(''); return; }
 
-  const gruppen = [];
+  let html = kopf, letzter = null;
   for (const i of items) {
     const d = datum(i.beworben_am), key = d ? `${d.getFullYear()}-${d.getMonth()}` : 'ohne';
-    let g = gruppen[gruppen.length - 1];
-    if (!g || g.key !== key) gruppen.push(g = { key, name: d ? `${MONATE[d.getMonth()]} ${d.getFullYear()}` : 'Ohne Datum', items: [] });
-    g.items.push(i);
+    if (key !== letzter) {
+      letzter = key;
+      const n = items.filter(x => { const xd = datum(x.beworben_am); return (xd ? `${xd.getFullYear()}-${xd.getMonth()}` : 'ohne') === key; }).length;
+      html += `<div class="bw-monatszeile"><h3>${d ? `${MONATE[d.getMonth()]} ${d.getFullYear()}` : 'Ohne Datum'}</h3><span>${plural(n, 'Bewerbung', 'Bewerbungen')}</span></div>`;
+    }
+    html += zeile(i);
   }
-  liste.innerHTML = gruppen.map(g =>
-    `<div class="bw-monat"><h3>${g.name}</h3><span>${plural(g.items.length, 'Bewerbung', 'Bewerbungen')}</span></div><div class="bw-reihen">${g.items.map(reihe).join('')}</div>`).join('');
+  liste.innerHTML = html;
 }
 
-function reihe(i) {
+function zeile(i) {
   const link = sicher(i.url), canva = sicher(i.canva_url);
   const name = esc(i.firma || host(link) || 'Ohne Firma');
   const firma = link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">${name}<span aria-hidden="true">↗</span></a>` : name;
   const tage = tageHer(i.beworben_am);
   const wann = tage == null ? '' : tage === 0 ? 'heute' : tage < 0 ? `in ${plural(-tage, 'Tag', 'Tagen')}` : `vor ${plural(tage, 'Tag', 'Tagen')}`;
   const k = STATUS[i.status] ? i.status : 'beworben';
-  const extra = [
-    canva && `<a href="${esc(canva)}" target="_blank" rel="noopener noreferrer">Canva ↗</a>`,
-    i.notiz && `<span class="bw-notiz">${esc(i.notiz)}</span>`,
-  ].filter(Boolean).join('');
+  const hervor = k === 'interview' || k === 'zusage';
   const aktionen = state.frageId === i.id
     ? `<span class="bw-frage">Löschen?</span><button type="button" class="bw-knopf bw-knopf--weg" data-akt="ja" data-id="${i.id}" aria-label="Ja, ${name} löschen">Ja</button><button type="button" class="bw-knopf" data-akt="nein">Nein</button>`
     : `<button type="button" class="bw-knopf" data-akt="bearbeiten" data-id="${i.id}">Bearbeiten</button><button type="button" class="bw-knopf" data-akt="frage" data-id="${i.id}" aria-label="${name} löschen">Löschen</button>`;
-  return `<article class="bw-eintrag${state.editId === i.id ? ' bearbeitet' : ''}">
-    <div><div class="bw-firma">${firma}</div><div class="bw-position">${esc(i.position || '–')}</div>${extra ? `<div class="bw-extra">${extra}</div>` : ''}</div>
+  return `<div class="bw-zeile${hervor ? ' bw-zeile--hervor' : ''}${state.editId === i.id ? ' bw-zeile--bearbeitet' : ''}" data-s="${k}">
+    <div><select class="bw-status" data-s="${k}" data-id="${i.id}" aria-label="Status für ${name}">${KEYS.map(s => `<option value="${s}"${s === k ? ' selected' : ''}>${STATUS[s].label}</option>`).join('')}</select></div>
+    <div><div class="bw-firma">${firma}</div>${canva ? `<a class="bw-canva" href="${esc(canva)}" target="_blank" rel="noopener noreferrer">Canva ↗</a>` : ''}</div>
+    <div class="bw-position">${esc(i.position || '–')}${i.notiz ? `<span class="bw-notiz">${esc(i.notiz)}</span>` : ''}</div>
     <div class="bw-datum">${fmt(i.beworben_am)}${wann ? `<small>${wann}</small>` : ''}</div>
-    <div><select class="bw-status" data-id="${i.id}" style="--farbe:${farbe(k)}" aria-label="Status für ${name}">${KEYS.map(s => `<option value="${s}"${s === k ? ' selected' : ''}>${STATUS[s].label}</option>`).join('')}</select></div>
     <div class="bw-aktionen">${aktionen}</div>
-  </article>`;
+  </div>`;
 }
 
 /* ---------- Ereignisse ---------- */
-function filterKlick(e) {
-  const b = e.target.closest('[data-filter]');
+function statusKlick(e) {
+  const b = e.target.closest('[data-status]');
   if (!b) return;
-  const v = b.dataset.filter;
-  state.filter = state.filter === v && v !== 'alle' ? 'alle' : v;
-  renderChips(); renderListe();
+  state.status = state.status === b.dataset.status ? null : b.dataset.status;
+  state.frageId = null;
+  renderReiter(); renderListe();
 }
-['#chips', '#legende', '#balken'].forEach(s => $(s).addEventListener('click', filterKlick));
+$('#pipe').addEventListener('click', statusKlick);
+$('#filterchip').addEventListener('click', statusKlick);
+$('#reiter').addEventListener('click', e => {
+  const b = e.target.closest('[data-reiter]');
+  if (!b) return;
+  state.reiter = b.dataset.reiter; state.status = null; state.frageId = null;
+  renderReiter(); renderListe();
+});
 $('#suche').addEventListener('input', e => { state.q = e.target.value.trim(); renderListe(); });
 $('#sortierung').addEventListener('change', e => { state.sort = e.target.value; renderListe(); });
 
@@ -340,7 +365,6 @@ $('#liste').addEventListener('click', async e => {
     state.frageId = null;
     try {
       await loeschen(id);
-      if (state.editId === id) formLeeren();
       render(); melden('Gelöscht.');
     } catch { renderListe(); melden('Löschen hat nicht geklappt.'); }
   }
@@ -349,9 +373,9 @@ $('#liste').addEventListener('click', async e => {
 $('#liste').addEventListener('change', async e => {
   const sel = e.target.closest('select.bw-status');
   if (!sel) return;
-  const id = sel.dataset.id, alt = state.items.find(i => i.id === id);
-  if (!alt) return;
-  sel.style.setProperty('--farbe', farbe(sel.value));
+  const id = sel.dataset.id;
+  if (!state.items.some(i => i.id === id)) return;
+  sel.dataset.s = sel.value;
   try {
     await speichern({ status: sel.value }, id);
     render(); melden(`Status: ${STATUS[sel.value].label}`);

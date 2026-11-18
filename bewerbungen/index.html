@@ -52,69 +52,76 @@
   <div id="ansicht-app" hidden>
 
     <section class="bw-kopf"><div class="wrap">
-      <p class="mono">Bewerbungen</p>
-      <h1 class="bw-titel" id="titel">Bewerbungen</h1>
-
-      <div class="bw-zahlen" id="zahlen"></div>
-
-      <div class="bw-verteilung" id="verteilung">
-        <div class="bw-balken" id="balken"></div>
-        <div class="bw-legende" id="legende"></div>
+      <div class="bw-kopfzeile">
+        <div>
+          <p class="mono">Bewerbungen</p>
+          <h1 class="bw-titel" id="titel">Bewerbungen</h1>
+        </div>
+        <button class="btn" type="button" id="neu" aria-haspopup="dialog">＋ Neue Bewerbung</button>
       </div>
-    </div></section>
-
-    <section class="bw-neu"><div class="wrap">
-      <div class="kasten">
-        <form class="bw-form" id="eintrag-form" novalidate>
-          <div class="bw-form__kopf">
-            <div>
-              <p class="mono" id="form-mono">Neu</p>
-              <h2 class="bw-form__titel" id="form-titel">Bewerbung eintragen</h2>
-            </div>
-          </div>
-
-          <div class="f bw-link">
-            <label for="f-url">Link zur Stellenanzeige</label>
-            <div class="bw-link__zeile">
-              <input id="f-url" type="url" inputmode="url" autocomplete="off" placeholder="https://… einfügen, Firma und Position werden ausgelesen">
-              <button class="btn btn--g bw-klein" type="button" id="auslesen">Auslesen</button>
-            </div>
-            <p class="fnote" id="link-note" role="status">Funktioniert nicht bei jeder Seite. Firma und Position lassen sich immer auch von Hand eintragen.</p>
-            <p class="fnote"><button class="bw-hand" type="button" id="von-hand">Von Hand eintragen</button></p>
-          </div>
-
-          <div class="bw-felder">
-            <div class="f"><label for="f-firma">Firma</label><input id="f-firma" type="text" autocomplete="off" placeholder="Unternehmen"></div>
-            <div class="f"><label for="f-position">Position</label><input id="f-position" type="text" autocomplete="off" placeholder="Stelle"></div>
-            <div class="f"><label for="f-datum">Beworben am</label><input id="f-datum" type="date"></div>
-            <div class="f"><label for="f-status">Status</label><select id="f-status"></select></div>
-            <div class="f bw-breit"><label for="f-canva">Canva-Link</label><input id="f-canva" type="url" inputmode="url" autocomplete="off" placeholder="Link zu Lebenslauf oder Anschreiben in Canva"></div>
-            <div class="f bw-breit"><label for="f-notiz">Notiz</label><textarea id="f-notiz" rows="3" placeholder="Ansprechperson, Gehalt, nächster Schritt …"></textarea></div>
-          </div>
-
-          <div class="bw-form__fuss">
-            <button class="btn" type="submit" id="speichern">Eintragen</button>
-            <button class="btn btn--g" type="button" id="abbrechen" hidden>Abbrechen</button>
-            <p class="fnote" id="form-note" role="status"></p>
-          </div>
-        </form>
-      </div>
+      <div class="bw-pipe" id="pipe"></div>
+      <p class="bw-quote" id="quote"></p>
     </div></section>
 
     <section class="bw-liste"><div class="wrap">
+      <div class="bw-reiter" id="reiter" role="group" aria-label="Auswahl"></div>
       <div class="bw-werkzeuge">
-        <div class="bw-chips" id="chips" role="group" aria-label="Filter"></div>
-        <input class="bw-suche" id="suche" type="search" placeholder="Suchen" aria-label="Firma oder Position suchen">
-        <select class="bw-select" id="sortierung" aria-label="Sortierung">
-          <option value="neu">Neueste zuerst</option>
-          <option value="alt">Älteste zuerst</option>
-          <option value="firma">Firma A–Z</option>
-        </select>
-        <button class="btn btn--g bw-klein" type="button" id="export">CSV-Export</button>
+        <div id="filterchip"></div>
+        <div class="bw-werkzeuge__rechts">
+          <input class="bw-suche" id="suche" type="search" placeholder="Suchen" aria-label="Firma, Position oder Notiz suchen">
+          <select class="bw-select" id="sortierung" aria-label="Sortierung">
+            <option value="neu">Neueste zuerst</option>
+            <option value="alt">Älteste zuerst</option>
+            <option value="firma">Firma A–Z</option>
+          </select>
+          <button class="btn btn--g bw-klein" type="button" id="export">CSV-Export</button>
+        </div>
       </div>
       <p class="fnote bw-auswahl" id="auswahl" role="status"></p>
-      <div id="liste"></div>
+      <div class="bw-tabelle" id="liste"></div>
     </div></section>
+
+    <!-- Seitenfenster: rechts auf breiten Bildschirmen, von unten auf dem Handy -->
+    <div class="bw-overlay" id="overlay" hidden></div>
+    <aside class="bw-fenster" id="fenster" role="dialog" aria-modal="true" aria-labelledby="form-titel" hidden>
+      <form class="bw-form" id="eintrag-form" novalidate>
+        <div class="bw-fenster__kopf">
+          <div>
+            <p class="mono" id="form-mono">Neu</p>
+            <h2 class="bw-form__titel" id="form-titel">Bewerbung eintragen</h2>
+          </div>
+          <button class="bw-knopf" type="button" id="schliessen" aria-label="Fenster schließen">Schließen ✕</button>
+        </div>
+
+        <div class="f">
+          <label for="f-url">Link zur Stellenanzeige</label>
+          <div class="bw-link__zeile">
+            <input id="f-url" type="url" inputmode="url" autocomplete="off" placeholder="https://… einfügen">
+            <button class="btn btn--g bw-klein" type="button" id="auslesen">Auslesen</button>
+          </div>
+          <p class="fnote bw-linknote" id="link-note" role="status">Firma und Position werden ausgelesen. Klappt das nicht, einfach von Hand eintragen.</p>
+        </div>
+        <div class="f"><label for="f-firma">Firma</label><input id="f-firma" type="text" autocomplete="off" placeholder="Unternehmen"></div>
+        <div class="f"><label for="f-position">Position</label><input id="f-position" type="text" autocomplete="off" placeholder="Stelle"></div>
+
+        <details class="bw-mehr" id="mehr">
+          <summary>Datum, Status, Canva, Notiz</summary>
+          <div class="bw-mehr__felder">
+            <div class="bw-zwei">
+              <div class="f"><label for="f-datum">Beworben am</label><input id="f-datum" type="date"></div>
+              <div class="f"><label for="f-status">Status</label><select id="f-status"></select></div>
+            </div>
+            <div class="f"><label for="f-canva">Canva-Link</label><input id="f-canva" type="url" inputmode="url" autocomplete="off" placeholder="Link zu Lebenslauf oder Anschreiben"></div>
+            <div class="f"><label for="f-notiz">Notiz</label><textarea id="f-notiz" rows="3" placeholder="Ansprechperson, Gehalt, nächster Schritt …"></textarea></div>
+          </div>
+        </details>
+
+        <div class="bw-fenster__fuss">
+          <button class="btn" type="submit" id="speichern">Eintragen</button>
+          <p class="fnote" id="form-note" role="status"></p>
+        </div>
+      </form>
+    </aside>
 
   </div>
 </main>
