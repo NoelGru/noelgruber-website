@@ -126,6 +126,13 @@ Startseite (`stil.css`, `seite.js`), Ergänzungen in `projekte/projekt.css`.
   gibt es hell und dunkel; angezeigt wird, was zur gewählten Ansicht passt. Alle Firmen und
   Personen darin sind erfunden (eigene Demo-Datenbank, keine echten Konten sichtbar).
 
+## Customer Health Dashboard, neutrale Projektseite (/projekte/customer-health-dashboard)
+
+Allgemeine Projektseite ohne Firmen- oder Bewerbungsbezug: `projekte/customer-health-dashboard.html`.
+Indexierbar, in der Sitemap und als Karte auf der Startseite. Bilder in
+`bilder/projekte/customer-health-dashboard/` (Kopien, ohne noindex-Header), Karte
+`bilder/projekte/customer-health-dashboard.jpg`.
+
 ## Customer Health Dashboard (/customerhealth, nicht indexiert)
 
 Kurzseite zum Verschicken: `projekte/customer-health.html` (https://noelgruber.de/projekte/customer-health), ausführliche Version: `projekte/customer-health/details.html` (/projekte/customer-health/details).
