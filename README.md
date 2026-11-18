@@ -130,8 +130,8 @@ Startseite (`stil.css`, `seite.js`), Ergänzungen in `projekte/projekt.css`.
 
 Allgemeine Projektseite ohne Firmen- oder Bewerbungsbezug: `projekte/customer-health-dashboard.html`.
 Indexierbar, in der Sitemap und als Karte auf der Startseite. Bilder in
-`bilder/projekte/customer-health-dashboard/` (Kopien, ohne noindex-Header), Karte
-`bilder/projekte/customer-health-dashboard.jpg`.
+`bilder/projekte/customer-health-dashboard/` (ohne noindex-Header, Überschrift „Customer Success · Parkflächen“), Karte
+`bilder/projekte/customer-health-dashboard/karte.jpg`.
 
 ## Customer Health Dashboard (/customerhealth, nicht indexiert)
 
