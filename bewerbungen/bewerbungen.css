@@ -4,21 +4,20 @@
 
 /* Eine eigene Farbe pro Status, damit man die Liste im Vorbeiscrollen lesen kann */
 :root{
-  --st-beworben:#8fa6ff; --st-bestaetigt:#5ccfd6; --st-interview:#f2c46b;
+  --st-beworben:#8fa6ff; --st-interview:#f2c46b;
   --st-zusage:#6fdc9a; --st-absage:#ff8a7a; --st-still:#7b828a;
 }
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
-    --st-beworben:#3a4fc4; --st-bestaetigt:#0f8790; --st-interview:#a36b06;
+    --st-beworben:#3a4fc4; --st-interview:#a36b06;
     --st-zusage:#1b8a4c; --st-absage:#c2412d; --st-still:#8a929b;
   }
 }
 :root[data-theme="light"]{
-  --st-beworben:#3a4fc4; --st-bestaetigt:#0f8790; --st-interview:#a36b06;
+  --st-beworben:#3a4fc4; --st-interview:#a36b06;
   --st-zusage:#1b8a4c; --st-absage:#c2412d; --st-still:#8a929b;
 }
 [data-s="beworben"]{--c:var(--st-beworben)}
-[data-s="bestaetigt"]{--c:var(--st-bestaetigt)}
 [data-s="interview"]{--c:var(--st-interview)}
 [data-s="zusage"]{--c:var(--st-zusage)}
 [data-s="absage"]{--c:var(--st-absage)}
@@ -46,34 +45,32 @@ main section{padding-block:0}
 .bw-kopfzeile{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:20px 28px}
 .bw-titel{font-size:clamp(34px,6.4vw,76px); max-width:18ch; margin-top:16px; text-wrap:balance}
 
-/* Stufen: Beworben → Bestätigt → Interview → Zusage, daneben die abgeschlossenen */
-.bw-pipe{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,.9fr); margin-top:clamp(30px,4vw,44px); align-items:stretch}
+/* Fünf gleich breite Karten in zwei Gruppen: links der Weg zur Zusage, rechts was ohne Zusage endete */
+.bw-pipe{display:grid; grid-template-columns:3fr 2fr; gap:0; margin-top:clamp(30px,4vw,44px)}
+.bw-gruppe--weg{padding-right:clamp(16px,2vw,26px)}
+.bw-gruppe--ende{padding-left:clamp(16px,2vw,26px); border-left:1px dashed var(--line2)}
+.bw-gruppe__titel{margin:0 0 10px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.bw-gruppe__titel b{font-weight:600; color:var(--mut); margin-left:8px; letter-spacing:0; font-variant-numeric:tabular-nums}
+.bw-gruppe__karten{display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:clamp(16px,2vw,26px)}
+.bw-gruppe--ende .bw-gruppe__karten{gap:clamp(10px,1.4vw,16px)}
 .bw-stufe{
-  all:unset; box-sizing:border-box; cursor:pointer; position:relative; margin-right:20px;
+  all:unset; box-sizing:border-box; cursor:pointer; position:relative; min-width:0;
   padding:18px 18px 16px; background:var(--surf); border:1px solid var(--line); border-top:3px solid var(--c);
   border-radius:var(--r-s); transition:background .2s, border-color .2s;
 }
+.bw-gruppe--ende .bw-stufe{background:transparent}
 .bw-stufe:hover,.bw-stufe[aria-pressed="true"]{
   background:color-mix(in srgb, var(--c) 10%, var(--surf));
   border-color:color-mix(in srgb, var(--c) 50%, var(--line)); border-top-color:var(--c);
 }
 .bw-stufe:focus-visible{outline:2px solid var(--glow); outline-offset:3px}
-.bw-stufe:not(.bw-stufe--letzte)::after{
-  content:"→"; position:absolute; right:-17px; top:50%; transform:translateY(-50%); color:var(--dim); font-size:14px;
+.bw-stufe--pfeil::after{
+  content:"→"; position:absolute; right:calc(clamp(16px,2vw,26px) / -2 - 6px); top:50%; transform:translateY(-50%);
+  color:var(--dim); font-size:14px; width:12px; text-align:center;
 }
 .bw-stufe b{display:block; font-size:clamp(30px,3.6vw,40px); line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
-.bw-stufe span{display:block; margin-top:9px; font-size:13.5px; font-weight:600; color:var(--c)}
+.bw-stufe span{display:block; margin-top:9px; font-size:13.5px; font-weight:600; color:var(--c); overflow-wrap:anywhere}
 .bw-stufe small{display:block; margin-top:3px; font-size:12px; color:var(--dim)}
-.bw-ende{display:flex; flex-direction:column; gap:8px; padding-left:16px; border-left:1px dashed var(--line2)}
-.bw-ende p{margin:0; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
-.bw-ende button{
-  all:unset; box-sizing:border-box; cursor:pointer; flex:1; display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:9px 12px; border:1px solid var(--line); border-radius:var(--r-s); transition:border-color .2s;
-}
-.bw-ende button:hover,.bw-ende button[aria-pressed="true"]{border-color:var(--c)}
-.bw-ende button:focus-visible{outline:2px solid var(--glow); outline-offset:3px}
-.bw-ende span{font-size:13px; font-weight:600; color:var(--c)}
-.bw-ende b{font-size:20px; font-variant-numeric:tabular-nums}
 .bw-quote{margin:16px 0 0; font-size:14px; color:var(--mut)}
 .bw-quote b{color:var(--ink); font-weight:600}
 
@@ -210,11 +207,11 @@ body.bw-gesperrt{overflow:hidden}
   .bw-spaltenkopf > :nth-child(3){display:none}
 }
 @media (max-width:820px){
-  .bw-pipe{grid-template-columns:1fr 1fr; gap:10px}
-  .bw-stufe{margin-right:0}
-  .bw-stufe::after{display:none}
-  .bw-ende{grid-column:1 / -1; flex-direction:row; padding-left:0; border-left:0}
-  .bw-ende p{display:none}
+  .bw-pipe{grid-template-columns:1fr; gap:22px}
+  .bw-gruppe--weg{padding-right:0}
+  .bw-gruppe--ende{padding-left:0; border-left:0}
+  .bw-gruppe__karten,.bw-gruppe--ende .bw-gruppe__karten{gap:10px}
+  .bw-stufe--pfeil::after{right:-10px; font-size:11px; width:10px}
 }
 @media (max-width:720px){
   .bw-werkzeuge__rechts{display:grid; grid-template-columns:1fr 1fr; width:100%; margin-left:0}
@@ -234,7 +231,10 @@ body.bw-gesperrt{overflow:hidden}
   .bw-reiter button{padding:11px 6px; font-size:13px}
   .bw-reiter b{margin-left:4px}
   .bw-kopfzeile .btn,#neu{width:100%; justify-content:center}
-  .bw-stufe{padding:14px 14px 12px}
+  .bw-stufe{padding:13px 11px 11px}
+  .bw-stufe b{font-size:26px}
+  .bw-stufe span{font-size:12.5px; margin-top:7px}
+  .bw-stufe small{font-size:11px}
   .bw-fenster{top:auto; max-height:92dvh; width:100%; border-left:0; border-top:1px solid var(--k-rand); border-radius:22px 22px 0 0}
   .bw-form{min-height:0}
   .bw-zwei{grid-template-columns:1fr}

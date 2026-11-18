@@ -10,18 +10,19 @@ const SPALTEN = 'id,firma,position,url,beworben_am,status,notiz,canva_url,create
 
 const STATUS = {
   beworben:   { label: 'Beworben',          offen: true  },
-  bestaetigt: { label: 'Eingang bestätigt', offen: true  },
   interview:  { label: 'Interview',         offen: true  },
   zusage:     { label: 'Zusage',            offen: false },
   absage:     { label: 'Absage',            offen: false },
   still:      { label: 'Keine Rückmeldung', offen: false },
 };
 const KEYS = Object.keys(STATUS);
-const STUFEN = ['beworben', 'bestaetigt', 'interview', 'zusage'];
+// Links der Bewerbungsweg, rechts was ohne Zusage endete
+const WEG = ['beworben', 'interview', 'zusage'];
+const ENDE = ['absage', 'still'];
 const REITER = [
   ['laufend', 'Laufend', i => STATUS[i.status]?.offen],
   ['gespraeche', 'Interviews', i => i.status === 'interview' || i.status === 'zusage'],
-  ['zu', 'Abgeschlossen', i => !STATUS[i.status]?.offen],
+  ['zu', 'Abgeschlossen', i => i.status === 'absage' || i.status === 'still'],
   ['alle', 'Alle', () => true],
 ];
 const MONATE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
@@ -260,7 +261,7 @@ function renderKopf() {
   const items = state.items, n = items.length;
   const laufend = items.filter(offen).length;
   const gespraeche = items.filter(i => i.status === 'interview' || i.status === 'zusage').length;
-  const antworten = items.filter(i => ['bestaetigt', 'interview', 'zusage', 'absage'].includes(i.status)).length;
+  const antworten = items.filter(i => ['interview', 'zusage', 'absage'].includes(i.status)).length;
   const quote = n ? Math.round(antworten / n * 100) : 0;
   const c = Object.fromEntries(KEYS.map(k => [k, items.filter(i => i.status === k).length]));
   const anteil = k => (n ? Math.round(c[k] / n * 100) : 0);
@@ -269,12 +270,14 @@ function renderKopf() {
     ? `${esc(plural(n, 'Bewerbung', 'Bewerbungen'))}, <span class="ser">${laufend} laufend</span>.`
     : 'Noch keine <span class="ser">Bewerbungen</span>.';
 
-  const stufen = STUFEN.map((k, i) =>
-    `<button type="button" class="bw-stufe${i === STUFEN.length - 1 ? ' bw-stufe--letzte' : ''}" data-s="${k}" data-status="${k}" aria-pressed="${state.status === k}">
-      <b>${c[k]}</b><span>${STATUS[k].label}</span><small>${k === 'beworben' ? 'warten auf Antwort' : `${anteil(k)} % aller Bewerbungen`}</small></button>`).join('');
-  const ende = `<div class="bw-ende"><p>Abgeschlossen</p>${['absage', 'still'].map(k =>
-    `<button type="button" data-s="${k}" data-status="${k}" aria-pressed="${state.status === k}"><span>${STATUS[k].label}</span><b>${c[k]}</b></button>`).join('')}</div>`;
-  $('#pipe').innerHTML = stufen + ende;
+  const karte = (k, pfeil) =>
+    `<button type="button" class="bw-stufe${pfeil ? ' bw-stufe--pfeil' : ''}" data-s="${k}" data-status="${k}" aria-pressed="${state.status === k}">
+      <b>${c[k]}</b><span>${STATUS[k].label}</span><small>${k === 'beworben' ? 'warten auf Antwort' : `${anteil(k)} % aller Bewerbungen`}</small></button>`;
+  const summe = ks => ks.reduce((a, k) => a + c[k], 0);
+  const gruppe = (titel, ks, pfeile, art) =>
+    `<div class="bw-gruppe bw-gruppe--${art}"><p class="bw-gruppe__titel">${titel}<b>${summe(ks)}</b></p>
+      <div class="bw-gruppe__karten">${ks.map((k, i) => karte(k, pfeile && i < ks.length - 1)).join('')}</div></div>`;
+  $('#pipe').innerHTML = gruppe('Bewerbungsweg', WEG, true, 'weg') + gruppe('Abgeschlossen', ENDE, false, 'ende');
   $('#quote').innerHTML = n ? `Rückmeldequote <b>${quote} %</b> · ${plural(gespraeche, 'Gespräch', 'Gespräche')}` : '';
 }
 
